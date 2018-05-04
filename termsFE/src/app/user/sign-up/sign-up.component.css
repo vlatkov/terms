@@ -1,0 +1,22 @@
+.registration-table {
+  margin-left: 10%;
+  width: 80%;
+}
+.registration-field {
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+
+}
+.login {
+  width: 100%;
+  text-align: center;
+}
+.alert-danger{
+  color: darkmagenta;
+  font-size: x-small;
+}
