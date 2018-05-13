@@ -1,0 +1,38 @@
+.login-registraion {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5%;
+  width: 40%;
+  height: 20%;
+  border: solid thin gainsboro;
+/*  -webkit-box-shadow: 0 8px 6px -6px black;
+  -moz-box-shadow: 0 8px 6px -6px black;
+  box-shadow: 0 8px 6px -6px black;*/
+/*  -moz-box-shadow:    3px 3px 3px 4px #ccc;
+  -webkit-box-shadow: 3px 3px 3px 4px #ccc;
+  box-shadow:         3px 3px 3px 4px #ccc;*/
+
+
+}
+
+.mat-tab-label {
+  min-width: 25px !important;
+  background-color: transparent;
+  color: white;
+  font-weight: 700;
+  width: 50%;
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  min-width: 25px !important;
+  background-color: white !important; opacity: 1;
+  color: Red;
+  font-weight: 700;
+  background: white;
+}
+
+p {
+  font-family: Roboto;
+}

@@ -11,11 +11,13 @@ export class UserService {
 
   registerUser(user: User) {
     const body: User = {
-      UserName: user.UserName,
-      Password: user.Password,
-      Email: user.Email,
-      FirstName: user.FirstName,
-      LastName: user.LastName
+      username: user.username,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      password: user.password,
+      repassword: user.repassword,
+      email: user.email,
+      role: user.role
     };
     const reqHeader = new HttpHeaders({'No-Auth': 'True'});
     return this.http.post(this.rootUrl + '/api/register', body, {headers : reqHeader});

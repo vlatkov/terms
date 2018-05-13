@@ -35,15 +35,19 @@
 
 <mat-card>
   <mat-card-content>
-    <form [formGroup]="form.getForm()">
+    <form [formGroup]="formRegiser.getForm()" #registrationForm="ngForm" (ngSubmit)="OnSubmit(registrationForm)">
         <table cellspacing="0" class="registration-table">
           <tr>
             <td>
               <mat-form-field class="registration-field">
-                <input matInput placeholder="Username" formControlName="username" [(ngModel)]="username" type="text" >
+                <input matInput
+                       placeholder="Username"
+                       formControlName="username"
+                       [(ngModel)]="username"
+                       type="text" >
                 <mat-icon matSuffix><i class="material-icons">person</i></mat-icon>
-              <div *ngIf="form.hasError('username')" class="alert alert-danger">
-                {{form.getError('username')}}
+              <div *ngIf="formRegiser.hasError('username')" class="alert alert-danger">
+                {{formRegiser.getError('username')}}
               </div>
               </mat-form-field>
             </td>
@@ -51,59 +55,88 @@
           <tr>
             <td>
               <mat-form-field class="registration-field">
-                <input matInput placeholder="Firstname"  type="text" >
+                <input matInput
+                       formControlName="firstname"
+                       [(ngModel)]="firstname"
+                       placeholder="Firstname"
+                       type="text" >
                 <mat-icon matSuffix><i class="material-icons">account_circle</i></mat-icon>
+                <div *ngIf="formRegiser.hasError('firstname')" class="alert alert-danger">
+                  {{formRegiser.getError('firstname')}}
+                </div>
               </mat-form-field>
             </td>
           </tr>
           <tr>
             <td>
               <mat-form-field class="registration-field">
-                <input matInput placeholder="Lastname" [(ngModel)]="lastname"  type="text" >
+                <input matInput
+                       formControlName="lastname"
+                       [(ngModel)]="lastname"
+                       placeholder="Lastname"
+                       type="text" >
                 <mat-icon matSuffix><i class="material-icons">account_circle</i></mat-icon>
+                <div *ngIf="formRegiser.hasError('lastname')" class="alert alert-danger">
+                  {{formRegiser.getError('lastname')}}
+                </div>
               </mat-form-field>
             </td>
           </tr>
           <tr>
             <td>
               <mat-form-field class="registration-field">
-                <input matInput  placeholder="Email" type="email" formControlName="email" [(ngModel)]="email" >
+                <input matInput
+                       placeholder="Email"
+                       type="email"
+                       formControlName="email"
+                       [(ngModel)]="email">
                 <mat-icon matSuffix><i class="material-icons">email</i></mat-icon>
+                <div *ngIf="formRegiser.hasError('email')" class="alert alert-danger">
+                  {{formRegiser.getError('email')}}
+                </div>
               </mat-form-field>
-              <div *ngIf="form.hasError('email')" class="alert alert-danger">
-                {{form.getError('email')}}
-              </div>
-            </td>
-          </tr>
-          <tr>
 
-            <td>
-              <mat-form-field class="registration-field">
-                <input matInput placeholder="Enter your password" formControlName="password" [(ngModel)]="password" [type]="hide ? 'text' : 'password'" >
-                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-              </mat-form-field>
-              <div *ngIf="form.hasError('password')" class="alert alert-danger">
-                {{form.getError('password')}}
-              </div>
             </td>
           </tr>
           <tr>
             <td>
               <mat-form-field class="registration-field">
-                <input matInput placeholder="Confirm your password" formControlName="repassword" [(ngModel)]="password2" [type]="hide ? 'text' : 'password'" >
+                <input matInput
+                       placeholder="Enter your password"
+                       formControlName="password"
+                       [(ngModel)]="password"
+                       [type]="hide ? 'text' : 'password'" >
                 <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <div *ngIf="formRegiser.hasError('password')" class="alert alert-danger">
+                  {{formRegiser.getError('password')}}
+                </div>
               </mat-form-field>
-              <div *ngIf="form.hasError('password')" class="alert alert-danger">
-                {{form.getError('password')}}
-              </div>
             </td>
           </tr>
           <tr>
             <td>
               <mat-form-field class="registration-field">
-              <mat-select placeholder="Rola korisnika">
-                <mat-option value="primary">Korisnik</mat-option>
-                <mat-option value="accent">Administrator</mat-option>
+                <input matInput
+                       placeholder="Confirm your password"
+                       formControlName="repassword"
+                       [(ngModel)]="repassword"
+                       [type]="hide ? 'text' : 'password'" >
+                <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                <div *ngIf="formRegiser.hasError('password')" class="alert alert-danger">
+                  {{formRegiser.getError('password')}}
+                </div>
+              </mat-form-field>
+
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <mat-form-field class="registration-field">
+              <mat-select placeholder="Rola korisnika"
+                          [(ngModel)]="role"
+                          formControlName="role">
+                <mat-option value="1">Korisnik</mat-option>
+                <mat-option value="2">Administrator</mat-option>
               </mat-select>
               </mat-form-field>
             </td>
@@ -111,8 +144,12 @@
           <tr>
             <td>
               <!--<button type="submit" class="btn btn-success">Submit</button>-->
-              <button class="login" [disabled]="!form.isValid()" mat-raised-button (click)="login()" color="primary">Registration</button>
-
+              <button class="register" [disabled]="!registrationForm.form.valid"
+                      mat-raised-button
+                      color="primary">{{'Registration.registration_btn' | translate}}</button>
+              <div class="clear">
+              <button class="register" mat-button (click)="clearForm()">Clear form</button>
+              </div>
             </td>
           </tr>
         </table>

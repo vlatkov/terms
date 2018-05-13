@@ -18,6 +18,6 @@ export const appRoutes: Routes = [
   },
   { path : '', redirectTo: '/login', pathMatch : 'full'},
 
-  {path : 'reset-pass', redirectTo: '/reset-pass'}
+  {path : 'reset-pass', redirectTo: '../reset-pass'}
 
 ];

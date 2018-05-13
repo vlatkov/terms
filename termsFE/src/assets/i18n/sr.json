@@ -1,0 +1,15 @@
+{
+  "Login": {
+    "login_title": "Loguj se",
+    "login_btn": "Loguj se",
+    "forgot_pass": "Zaboravili ste password",
+    "username": "Korisničko ime",
+    "password": "Korisnička šifra"
+  },
+  "Registration": {
+    "registration_title": "Registracija",
+    "registration_btn": "Registruj se",
+    "clear_form": "Izbriši formu"
+  }
+
+}

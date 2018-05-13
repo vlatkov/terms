@@ -21,14 +21,17 @@
     </div>
   </div>
 </div>-->
+
 <div class="login-registraion">
-<mat-tab-group mat-stretch-tabs [(selectedIndex)]="selectedIndex">
-  <mat-tab label="Login">
+
+  <mat-tab-group mat-stretch-tabs mat-selected="selectedIndex" [@.disabled]="true">
+  <mat-tab label="{{'Login.login_title' | translate}}">
   <sign-in></sign-in>
   </mat-tab>
-  <mat-tab label="Registration">
+  <mat-tab label="{{'Registration.registration_title' | translate}}">
   <sign-up></sign-up>
   </mat-tab>
 </mat-tab-group>
+
 </div>
 

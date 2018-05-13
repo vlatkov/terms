@@ -1,0 +1,24 @@
+@import '~@angular/material/theming';
+@import '~@covalent/core/theming/all-theme';
+@import 'app/theme-defs';
+
+@include mat-core();
+@include angular-material-theme($theme);
+@include covalent-theme($theme);
+// DARK THEME
+.dark-theme {
+  @include angular-material-theme($dark-theme);
+  @include covalent-theme($dark-theme);
+}
+
+// LIGHT THEME
+.light-theme {
+  @include angular-material-theme($theme);
+  @include covalent-theme($theme);
+}
+
+// CONTRAST THEME
+.contrast-theme {
+  @include angular-material-theme($contrast-theme);
+  @include covalent-theme($contrast-theme);
+}

@@ -1,0 +1,15 @@
+{
+  "Login": {
+    "login_title": "Login",
+    "login_btn": "Login",
+    "forgot_pass": "Forgot Password",
+    "username": "Username",
+    "password": "Password"
+  },
+  "Registration": {
+    "registration_title": "Registration",
+    "registration_btn": "Register",
+    "clear_form": "Clear form"
+  }
+
+}
