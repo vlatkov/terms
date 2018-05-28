@@ -12,6 +12,7 @@ import com.terms.resource.UserRest;
 
 import com.terms.security.login.ResetKey;
 
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,6 @@ public class UserServices {
     public User createAndUpdateUserAndSendMail(User user) throws RuntimeException {
 
 
-
             MailInfo mailInfo = new MailInfo(environment);
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -119,6 +119,7 @@ public class UserServices {
         params.put("active",true);
         params.put("tokenExpirationDate",null);
         params.put("confirmPasswordToken",null);
+        params.put("lastPasswordResetDate", new Date());
         UpdateWithPatch updateWithPatch = new UpdateWithPatch(user, params);
         user = (User) updateWithPatch.getObject();
         user.setId(id);
@@ -215,12 +216,22 @@ public class UserServices {
         return userRepository.findAllByIdAndConfirmPasswordToken(id, key);
     }
 
+    public User checkExistsUserByParameter(Map<String,Object> param) {
 
+        User user = null;
+        if (param.containsKey("email")){
+            user = userRepository.findUserByEmail(param.get("email").toString());
+        }
+        if (param.containsKey("username")) {
+            user = userRepository.findUserByUserName(param.get("username").toString());
+        }
+        return user;
+    }
     /*
     *
     *  Delete all unconfirmed user
     */
-    @Scheduled(fixedDelayString = "${scheduler.delay}")
+    // @Scheduled(fixedDelayString = "${scheduler.delay}")
     @Transactional
     @Named(value = "Delete users")
     public void deleteUnConfirmedUser(){

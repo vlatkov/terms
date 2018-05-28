@@ -10,8 +10,8 @@ spring:
     password: root
   jpa:
     hibernate:
-      ddl-auto: none
-    show-sql: false
+      ddl-auto:
+    show-sql: true
     database: mysql
 
 
@@ -37,11 +37,13 @@ api:
 mail:
   from: rezervisiTermin@gmail.com
   body: "<H2>Molimo Vas potrvrdite registraciju klikom na link:</H2>"
+  afterConfirmLoginUrl: "http://localhost:4200"
   registration:
         subject: "Potvrda registracije"
   confirmUser:
         path: "/confirm?"
   resetPass:
         path: "/reset?"
+
 scheduler:
   delay: 10000

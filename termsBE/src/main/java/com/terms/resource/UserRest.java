@@ -13,6 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -61,6 +62,36 @@ public class UserRest {
     }
 
     /*
+    *   @Check exists username or email
+    */
+    @RequestMapping(value = "/check",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity checkExistsUser(@RequestBody Map<String, Object> param) {
+
+
+        if (userServices.checkExistsUserByParameter(param) == null) {
+            return ResponseEntity.ok(HttpStatus.OK.value());
+        } else
+            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+    }
+
+    /*
+    *   @Reset password
+    */
+    @RequestMapping(value = "/reset",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<User> resetPassword(@RequestBody Map<String,Object> params){
+        User user = userServices.checkExistsUserByParameter(params);
+        if (user != null){
+        user = userServices.updateUserPartial(user.getId(), params);
+        }
+        return Optional.ofNullable(user)
+                .map(res -> new ResponseEntity<>(res, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    /*
     *   @param Delete new User
     */
     @RequestMapping(value = "/user/{Id}",
@@ -70,6 +101,7 @@ public class UserRest {
         userServices.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 
 
     /*

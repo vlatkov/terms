@@ -21,15 +21,19 @@ public class JwtUserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+
         User  user = userRepository.findAllByUserNameAndActive(username,true);
+        if (user == null) {
+            user = userRepository.findUserByEmailAndActive(username, true);
+        }
 
         if (user == null) {
-            logger.debug("Authentication user debug- " + username);
+            logger.debug("Authentication user debug - " + username);
             logger.info("Authentication user info - " + username);
 
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", username));
         } else {
-            logger.debug("Authenticated user debug - "+ username);
+            logger.debug("Authenticated user debug - " + username);
             logger.info("Authentication user info - " + username);
             return JwtUserFactory.create(user);
         }
