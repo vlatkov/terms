@@ -1,37 +1,42 @@
-<!--<div class="container">
-  <div class="row">
-    <div class="col s8 offset-s2">
-      <div class="card grey lighten-2">
-        <div class="card-tabs">
-          <ul class="tabs tabs-fixed-width tabs-transparent">
-            <li class="tab">
-              <a routerLink='/login' routerLinkActive='active'>Sign In</a>
-            </li>
-            <li class="tab">
-              <a  routerLink='/signup' routerLinkActive='active'>Sign Up</a>
-            </li>
-          </ul>
+<div fxLayoutAlign="center stretch"
+     fxLayout="row">
+
+  <div fxFlex.xl="40"
+       fxFlex.lg="40"
+       fxFlex.xs="90"
+       fxFlex.sm="90"
+       fxFlex.md="90">
+
+      <mat-card>
+        <div fxLayout="row">
+          <mat-card-title fxFlex="100"
+                          style="padding-left: 15%"
+                          fxLayoutAlign="center center"
+                          class="bckcolor">
+
+            <div fxFlex="80" fxLayoutAlign="center center">
+              <span class="header-text">Termini.org</span>
+            </div>
+              <div fxFlex="20" fxLayoutAlign="end">
+                <select (change)="setlanguage($event.target.value)" >
+                  <option value="en">english</option>
+                  <option value="sr">serbian</option>
+                </select>
+              </div>
+          </mat-card-title>
         </div>
-        <div class="card-content white">
-          <div class="row">
-            <router-outlet></router-outlet>
-          </div>
-        </div>
-      </div>
-    </div>
+        <mat-tab-group mat-stretch-tabs mat-selected="selectedIndex" [@.disabled]="true">
+
+          <mat-tab label="{{'Login.login_title' | translate}}">
+            <sign-in></sign-in>
+          </mat-tab>
+          <mat-tab label="{{'Registration.registration_title' | translate}}">
+            <sign-up></sign-up>
+          </mat-tab>
+        </mat-tab-group>
+
+      </mat-card>
+
+
   </div>
-</div>-->
-
-<div class="login-registraion">
-
-  <mat-tab-group mat-stretch-tabs mat-selected="selectedIndex" [@.disabled]="true">
-  <mat-tab label="{{'Login.login_title' | translate}}">
-  <sign-in></sign-in>
-  </mat-tab>
-  <mat-tab label="{{'Registration.registration_title' | translate}}">
-  <sign-up></sign-up>
-  </mat-tab>
-</mat-tab-group>
-
 </div>
-

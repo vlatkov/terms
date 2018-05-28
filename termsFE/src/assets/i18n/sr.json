@@ -4,12 +4,37 @@
     "login_btn": "Loguj se",
     "forgot_pass": "Zaboravili ste password",
     "username": "Korisničko ime",
-    "password": "Korisnička šifra"
+    "password": "Lozinka",
+    "check_user_pass": "Provjerite username i password",
+    "remember_me": "Zapamti me",
+    "or": "ili",
+    "email": "email"
+
   },
   "Registration": {
+    "success": "Registracija je uspješna. Molimo Vas provjerite mail box i potrvrdite registraciju",
     "registration_title": "Registracija",
     "registration_btn": "Registruj se",
-    "clear_form": "Izbriši formu"
+    "clear_form": "Izbriši formu",
+    "username": "Korisničko ime",
+    "password": "Korisnička šifra",
+    "repassword": "Potvrda korisničke šifre",
+    "firstname": "Ime",
+    "lastname": "Prezime",
+    "role_user": "Rola korisnika",
+    "email": "Email adresa",
+    "email_exists": "Email adresa već postoji",
+    "username_exists": "Korisničko ime već postoji"
+  },
+  "Forgot":{
+    "forgot_title": "Ažuriranje lozinke",
+    "username":"Korisničko ime",
+    "email":"Email adresa",
+    "password":"Lozinka",
+    "repassword":"Potvrda Nove Lozinka",
+    "button": "Resetuj",
+    "exist_email": "Email adresa nije definisana"
   }
+
 
 }

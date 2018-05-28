@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import 'rxjs/add/operator/map';
 import { User } from './user.model';
 import { Configuration } from '../configuration/app.constants';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
@@ -28,9 +29,21 @@ export class UserService {
     const reqHeader = new HttpHeaders({ 'Content-Type': 'application/json', 'No-Auth': 'True' });
     return this.http.post(this.rootUrl + 'auth', credentials, { headers: reqHeader });
   }
-
-  getUserClaims() {
-   return  this.http.get(this.rootUrl + '/api/GetUserClaims');
+  resetPassword(email, password) {
+    const credentials = {email: email, password: password };
+    const reqHeader = new HttpHeaders({'Content-Type': 'application/json', 'No-Auth': 'True'});
+  return this.http.post(this.rootUrl + this.cons.Api + 'reset', credentials, { headers: reqHeader});
   }
 
+  checkEmail(email): Observable<any> {
+    const credentials = {email: email};
+    const reqheader = new HttpHeaders({'Content-Type': 'application/json', 'No-Auth': 'True'});
+    return this.http.post(this.rootUrl + this.cons.Api + 'check', credentials,  {headers: reqheader});
+  }
+
+  checkUsername(username): Observable<any> {
+    const credentials = {username: username};
+    const reqheader = new HttpHeaders({'Content-Type': 'application/json', 'No-Auth': 'True'});
+    return this.http.post(this.rootUrl + this.cons.Api + 'check', credentials,  {headers: reqheader});
+  }
 }

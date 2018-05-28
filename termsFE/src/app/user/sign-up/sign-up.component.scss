@@ -23,3 +23,10 @@
   color: darkmagenta;
   font-size: x-small;
 }
+.error-msg {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  color: red;
+  margin-top: 1rem;
+}

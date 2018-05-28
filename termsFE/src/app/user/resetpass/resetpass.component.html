@@ -1,3 +1,107 @@
-<p>
-  resetpass works!
-</p>
+
+<div fxLayoutAlign="center stretch"
+     fxLayout="row">
+
+  <div fxFlex.xl="40"
+       fxFlex.lg="40"
+       fxFlex.xs="90"
+       fxFlex.sm="90"
+       fxFlex.md="90" class="mat-card-content">
+
+    <div fxLayout="row" class="mat-card">
+      <mat-card-title fxFlex="100"
+                      style="padding-left: 15%"
+                      fxLayoutAlign="center center"
+                      class="bckcolor">
+
+        <div fxFlex="80" fxLayoutAlign="center center">
+          <span class="header-text">Termini.org</span>
+        </div>
+        <div fxFlex="20" fxLayoutAlign="end">
+          <select (change)="setlanguage($event.target.value)" >
+            <option value="en">english</option>
+            <option value="sr">serbian</option>
+          </select>
+        </div>
+      </mat-card-title>
+    </div>
+
+    <mat-tab-group mat-stretch-tabs>
+      <mat-tab label="{{'Forgot.forgot_title' | translate}}">
+
+   <div class="mat-card-content">
+    <div fxLayout="column" class="mat-card">
+    <form [formGroup]="formReset.getForm()" #resetForm="ngForm">
+            <table class="forgot-table">
+              <tr>
+                <td>
+
+                  <mat-form-field class="forgot-field">
+                    <input matInput
+                           placeholder="{{'Forgot.email' | translate }}"
+                           formControlName="email"
+                           [(ngModel)]="email"
+                           type="text"
+                           (blur)="checkEmail()">
+                    <mat-icon matSuffix><i class="material-icons">person</i></mat-icon>
+                    <div *ngIf="formReset.hasError('email')" class="alert alert-danger">
+                      {{formReset.getError('email')}}
+                    </div>
+                  </mat-form-field>
+
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field class="forgot-field">
+                    <input matInput
+                           placeholder="{{'Forgot.password' | translate }}"
+                           formControlName="password"
+                           [(ngModel)]="password"
+                           [type]="hide ? 'text' : 'password'" >
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    <div *ngIf="formReset.hasError('password')" class="alert alert-danger">
+                      {{formReset.getError('password')}}
+                    </div>
+                  </mat-form-field>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <mat-form-field class="forgot-field">
+                    <input matInput
+                           placeholder="{{'Forgot.repassword' | translate }}"
+                           formControlName="repassword"
+                           [(ngModel)]="repassword"
+                           [type]="hide ? 'text' : 'password'" >
+                    <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                    <div *ngIf="formReset.hasError('password')" class="alert alert-danger">
+                      {{formReset.getError('password')}}
+                    </div>
+                  </mat-form-field>
+
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <button mat-button [disabled]="!(resetForm.form.valid && emailAddress)"
+                          mat-raised-button style="margin-bottom: 2%"
+                          (click)="resetPass()"
+                          color="primary">{{'Forgot.button' | translate}}
+
+                  </button>
+
+                </td>
+              </tr>
+            </table>
+
+          </form>
+
+          </div>
+        </div>
+    </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
+
+

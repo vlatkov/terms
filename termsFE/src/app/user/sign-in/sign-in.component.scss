@@ -1,0 +1,45 @@
+
+
+.login-table {
+  margin-left: 10%;
+  width: 80%;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: auto;
+  &.forgot{
+    margin-top: 2rem;
+  }
+}
+
+.login {
+  text-align: center;
+  justify-content: flex-start;
+  width: 50%;
+}
+
+.remember-me {
+  display: flex;
+  vertical-align: middle;
+}
+
+.login-field {
+  width: 100%;
+}
+
+.error-msg {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  color: red;
+  margin-top: 1rem;
+}
+
+span.link:hover {
+  color: blue;
+  cursor: pointer;
+  text-decoration: underline;
+}

@@ -16,10 +16,16 @@
 
 }
 
+.box-title {
+
+  background: green;
+  display: flex;
+}
+
 .mat-tab-label {
   min-width: 25px !important;
   background-color: transparent;
-  color: white;
+  color: black;
   font-weight: 700;
   width: 50%;
 }
@@ -27,12 +33,45 @@
 /* Styles for the active tab label */
 .mat-tab-label.mat-tab-label-active {
   min-width: 25px !important;
-  background-color: white !important; opacity: 1;
-  color: Red;
+  background-color: #4D6988 !important; opacity: 1;
+  color: white;
   font-weight: 700;
-  background: white;
+  background: #575f74;
 }
 
-p {
-  font-family: Roboto;
+
+ .avatar_position {
+   position: absolute;
+   margin: 0 auto;
+   left: 0;
+   right: 0;
+   top: -70px;
+   width: 15%;
+   height: 92px;
+   border-radius: 30%;
+   z-index: 4;
+   background: #ffffff;
+   padding: 15px;
+   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+   justify-content: center;
+   align-items: center;
+   text-align: center;
+ }
+
+.dropbtn {
+  background-color: #ffffff;
+  color: black;
+  font-weight: 200;
+  font-size: 12px;
+  border: none;
+}
+
+.header-text {
+  background-color: #666666;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+  justify-content: center;
 }

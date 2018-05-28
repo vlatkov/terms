@@ -4,11 +4,14 @@ import { User } from '../../shared/user.model';
 import { UserService } from '../../shared/user.service';
 import {ValidationManager} from 'ng2-validation-manager';
 import {ToastrService} from "ngx-toastr";
+import {HttpErrorResponse} from "@angular/common/http";
+import {TranslateService} from "@ngx-translate/core";
+
 
 @Component({
   selector: 'sign-up',
   templateUrl: './sign-up.component.html',
-  styleUrls: ['./sign-up.component.css']
+  styleUrls: ['./sign-up.component.scss']
 })
 export class SignUpComponent implements OnInit {
   user: User;
@@ -20,6 +23,9 @@ export class SignUpComponent implements OnInit {
   firstname;
   email;
   role;
+  emailAddressExists = false;
+  usernameExists = false;
+  errorReg = '';
 
   formRegiser = new ValidationManager({
     'email'       : 'required|email',
@@ -31,7 +37,9 @@ export class SignUpComponent implements OnInit {
     'role'       : 'required',
   });
 
-  constructor(private userService: UserService, private toastr: ToastrService) { }
+  constructor(private userService: UserService,
+              private toast: ToastrService,
+              private trans: TranslateService) { }
 
   ngOnInit() {
     this.password = null;
@@ -63,25 +71,45 @@ export class SignUpComponent implements OnInit {
       .subscribe((data: any) => {
         if (data.Succeeded === true) {
           this.resetForm(form);
-          this.toastr.success('User registration successful');
+          this.toast.success('User registration successful');
         } else {
-          this.toastr.error(data.Errors[0]); }
+          this.toast.error(data.Errors[0]); }
       });
   }
 
   clearForm() {
     this.formRegiser.reset();
     this.user = null;
-    /*{
-      username: '',
-      repassword: '',
-      password: '',
-      email: '',
-      firstname: '',
-      lastname: '',
-      role: ''
-    };*/
-    this.toastr.warning('User registration successful', 'message');
   }
 
+
+  checkEmail() {
+
+    if (!this.formRegiser.hasError('email') && this.email.length > 0) {
+      this.userService.checkEmail(this.email).subscribe((data: any) => {
+        this.emailAddressExists = false;
+      }, (err: HttpErrorResponse) => {
+        this.emailAddressExists = true;
+        this.toast.warning(this.trans.instant('Registration.email_exists'));
+        this.errorReg = this.errorReg + '\n' + this.trans.instant('Registration.email_exists');
+
+      });
+
+    }
+  }
+
+
+  checkUsername() {
+
+    if (!this.formRegiser.hasError('username') && this.username.length > 0) {
+      this.userService.checkUsername(this.username).subscribe((data: any) => {
+        this.usernameExists = false;
+      }, (err: HttpErrorResponse) => {
+        this.usernameExists = true;
+        this.toast.warning(this.trans.instant('Registration.username_exists'));
+        this.errorReg = this.errorReg + '\n' + this.trans.instant('Registration.username_exists');
+      });
+
+    }
+  }
 }

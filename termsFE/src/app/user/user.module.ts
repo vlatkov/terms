@@ -8,6 +8,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import {TranslateModule} from '@ngx-translate/core';
 import {ResetpassComponent} from './resetpass/resetpass.component';
+import {FlexLayoutModule} from '@angular/flex-layout';
 
 
 @NgModule({
@@ -17,13 +18,15 @@ import {ResetpassComponent} from './resetpass/resetpass.component';
     FormsModule,
     BrowserModule,
     TranslateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule
   ],
   exports: [
     UserComponent,
     SignInComponent,
     SignUpComponent,
-    ResetpassComponent
+    ResetpassComponent,
+
   ],
   declarations: [
     UserComponent,

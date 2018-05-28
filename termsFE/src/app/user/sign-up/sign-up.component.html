@@ -1,55 +1,22 @@
-<!--
-<form class="col s12 white" #userRegistrationForm="ngForm" (ngSubmit)="OnSubmit(userRegistrationForm)">
-  <div class="row">
-    <div class="input-field col s6">
-      <input class="validate" type="text" name="UserName" #UserName="ngModel" [(ngModel)]="user.UserName" required>
-      <label data-error="Required field!">UserName</label>
-    </div>
-    <div class="input-field col s6">
-      <input class="validate" type="password" name="Password" #Password="ngModel" [(ngModel)]="user.Password" required minlength="3">
-      <label [attr.data-error]="Password.errors!=null?(Password.errors.required?'Required field!':'Minimum 3 characters needed'):''">Password</label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s12">
-      <input class="validate" type="text" name="Email" #Email="ngModel" [(ngModel)]="user.Email" [pattern]="emailPattern">
-      <label data-error="Invalid email!">Email</label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s6">
-      <input type="text" name="FirstName" #FirstName="ngModel" [(ngModel)]="user.FirstName">
-      <label>First Name</label>
-    </div>
-    <div class="input-field col s6">
-      <input type="text" name="LastName" #LastName="ngModel" [(ngModel)]="user.LastName">
-      <label>Last Name</label>
-    </div>
-  </div>
-  <div class="row">
-    <div class="input-field col s12">
-      <button [disabled]="!userRegistrationForm.valid" class="btn-large btn-submit" type="submit">Submit</button>
-    </div>
-  </div>
-</form>-->
-
-<mat-card>
-  <mat-card-content>
+<div fxLayout="column" class="mat-card">
     <form [formGroup]="formRegiser.getForm()" #registrationForm="ngForm" (ngSubmit)="OnSubmit(registrationForm)">
         <table cellspacing="0" class="registration-table">
           <tr>
             <td>
+
               <mat-form-field class="registration-field">
                 <input matInput
-                       placeholder="Username"
+                       placeholder="{{'Registration.username' | translate }}"
                        formControlName="username"
                        [(ngModel)]="username"
+                       (blur)="checkUsername()"
                        type="text" >
                 <mat-icon matSuffix><i class="material-icons">person</i></mat-icon>
               <div *ngIf="formRegiser.hasError('username')" class="alert alert-danger">
                 {{formRegiser.getError('username')}}
               </div>
               </mat-form-field>
+
             </td>
           </tr>
           <tr>
@@ -58,7 +25,7 @@
                 <input matInput
                        formControlName="firstname"
                        [(ngModel)]="firstname"
-                       placeholder="Firstname"
+                       placeholder="{{'Registration.firstname' | translate }}"
                        type="text" >
                 <mat-icon matSuffix><i class="material-icons">account_circle</i></mat-icon>
                 <div *ngIf="formRegiser.hasError('firstname')" class="alert alert-danger">
@@ -73,7 +40,7 @@
                 <input matInput
                        formControlName="lastname"
                        [(ngModel)]="lastname"
-                       placeholder="Lastname"
+                       placeholder="{{'Registration.lastname' | translate }}"
                        type="text" >
                 <mat-icon matSuffix><i class="material-icons">account_circle</i></mat-icon>
                 <div *ngIf="formRegiser.hasError('lastname')" class="alert alert-danger">
@@ -86,9 +53,10 @@
             <td>
               <mat-form-field class="registration-field">
                 <input matInput
-                       placeholder="Email"
+                       placeholder="{{'Registration.email' | translate }}"
                        type="email"
                        formControlName="email"
+                       (blur)="checkEmail()"
                        [(ngModel)]="email">
                 <mat-icon matSuffix><i class="material-icons">email</i></mat-icon>
                 <div *ngIf="formRegiser.hasError('email')" class="alert alert-danger">
@@ -102,7 +70,7 @@
             <td>
               <mat-form-field class="registration-field">
                 <input matInput
-                       placeholder="Enter your password"
+                       placeholder="{{'Registration.password' | translate }}"
                        formControlName="password"
                        [(ngModel)]="password"
                        [type]="hide ? 'text' : 'password'" >
@@ -117,7 +85,7 @@
             <td>
               <mat-form-field class="registration-field">
                 <input matInput
-                       placeholder="Confirm your password"
+                       placeholder="{{'Registration.repassword' | translate }}"
                        formControlName="repassword"
                        [(ngModel)]="repassword"
                        [type]="hide ? 'text' : 'password'" >
@@ -132,7 +100,7 @@
           <tr>
             <td>
               <mat-form-field class="registration-field">
-              <mat-select placeholder="Rola korisnika"
+              <mat-select placeholder="{{'Registration.role_user' | translate }}"
                           [(ngModel)]="role"
                           formControlName="role">
                 <mat-option value="1">Korisnik</mat-option>
@@ -142,17 +110,23 @@
             </td>
           </tr>
           <tr>
+          <td>
+              <div *ngIf="emailAddressExists || usernameExists" class="error-msg">
+                {{errorReg}}
+              </div>
+          </td>
+          </tr>
+          <tr>
             <td>
-              <!--<button type="submit" class="btn btn-success">Submit</button>-->
-              <button class="register" [disabled]="!registrationForm.form.valid"
+              <button class="register" [disabled]="!(registrationForm.form.valid && emailAddressExists && usernameExists)"
                       mat-raised-button
                       color="primary">{{'Registration.registration_btn' | translate}}</button>
               <div class="clear">
-              <button class="register" mat-button (click)="clearForm()">Clear form</button>
+              <button class="register" mat-button (click)="clearForm()">{{'Registration.clear_form' | translate }}</button>
               </div>
             </td>
           </tr>
         </table>
     </form>
-  </mat-card-content>
-</mat-card>
+
+  </div>

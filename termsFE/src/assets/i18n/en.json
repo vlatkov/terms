@@ -4,12 +4,34 @@
     "login_btn": "Login",
     "forgot_pass": "Forgot Password",
     "username": "Username",
-    "password": "Password"
+    "password": "Password",
+    "check_user_pass": "Please check username and password",
+    "remember_me": "Remember me",
+    "or": "or",
+    "email": "email"
   },
   "Registration": {
+    "success": "Registration is success. Please check your mail box and confirm registration",
     "registration_title": "Registration",
     "registration_btn": "Register",
-    "clear_form": "Clear form"
+    "clear_form": "Clear form",
+    "username": "Username",
+    "password": "Password",
+    "repassword": "Confirm password",
+    "firstname": "Firstname",
+    "lastname": "Lastname",
+    "role_user": "User role",
+    "email": "Email address",
+    "email_exists": "Email address exists",
+    "username_exists": "Username exists"
+  },
+  "Forgot":{
+    "forgot_title": "Reset your credentials",
+    "username":"Username",
+    "email":"Email address",
+    "password":"New Password",
+    "repassword":"Confirm New Password",
+    "button": "Reset",
+    "exist_email": "Email address don't exist"
   }
-
 }

@@ -1,34 +1,74 @@
-<mat-card>
-  <mat-card-content>
-    <form #loginForm="ngForm">
-      <table cellspacing="0" class="login-table">
-        <tr>
-          <td>
-            <mat-form-field class="login-field">
-              <input matInput placeholder= "{{'Login.username' | translate}}" [(ngModel)]="username" name="username" required >
-              <mat-icon matSuffix><i class="material-icons">person</i></mat-icon>
-            </mat-form-field>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <mat-form-field class="login-field">
-              <input matInput placeholder= "{{'Login.password' | translate}}" [type]="hide ? 'text' : 'password'" name="password" [(ngModel)]="password" required >
-              <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
-            </mat-form-field></td>
-        </tr>
-        <tr>
-          <td class="button">
-            <button class="login" [disabled]="!loginForm.valid" mat-raised-button (click)="login()" color="primary">{{'Login.login_btn' | translate}}</button>
-          </td>
-        </tr>
-      </table>
-    </form>
-    <br/>
-    <mat-card-footer class="button">
-      <button mat-button routerLink="reset-pass">{{'Login.forgot_pass' | translate}}</button>
-    </mat-card-footer>
+<div class="mat-card">
+<form #loginForm="ngForm">
+  <table class="login-table">
+  <tr>
+    <td>
 
-  </mat-card-content>
+        <mat-form-field class="login-field">
+          <input matInput
+                 placeholder= "{{'Login.username' | translate}} {{'Login.or' | translate}} {{'Login.email' | translate }}"
+                 [(ngModel)]="username"
+                 name="username"
+                 required (keyup)="_resetLoginError()">
+          <mat-icon matSuffix><i class="material-icons">person</i></mat-icon>
+        </mat-form-field>
 
-</mat-card>
+    </td>
+  </tr>
+    <tr>
+      <td>
+        <mat-form-field class="login-field">
+          <input matInput placeholder= "{{'Login.password' | translate}}"
+                 [type]="hide ? 'text' : 'password'"
+                 name="password"
+                 [(ngModel)]="password" required >
+          <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+        </mat-form-field>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      <div fxLayout.sm="column"
+           fxLayout.xs="column"
+           fxFlex.xs="100"
+           fxFlex.md="100">
+
+        <div fxFlex="50"
+             fxFlex.md="100"
+             fxFlex.xs="100">
+          <button class="login"
+                  [disabled]="!loginForm.valid"
+                  mat-raised-button
+                  (click)="OnSubmit()"
+                  color="primary">
+                {{'Login.login_btn' | translate}}
+          </button>
+        </div>
+        <br fxHide
+            fxShow.sm
+            fxShow.md
+            fxShow.xs>
+        <div fxFlex="50">
+                <mat-checkbox name="rememberMe"
+                              fxLayoutAlign="end"
+                              fxLayoutAlign.xs="start"
+                              fxLayoutAlign.sm="start"
+                              fxLayoutAlign.md="start"
+                              class="remember-me"
+                              [(ngModel)]="rememberMe">{{'Login.remember_me'|translate}}</mat-checkbox>
+        </div>
+
+      </div>
+      </td>
+    </tr>
+    <div *ngIf="isLoginError" class="error-msg">
+      {{"Login.check_user_pass" | translate}}
+    </div>
+  </table>
+</form>
+
+  <mat-card-footer class="button forgot">
+    <!--<button mat-button="btn" routerLink="reset-pass">{{'Login.forgot_pass' | translate}}</button>-->
+    <span class='link' (click)="_forgotPass()">{{'Login.forgot_pass' | translate}}</span>
+  </mat-card-footer>
+</div>

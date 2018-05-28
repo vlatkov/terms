@@ -1,0 +1,51 @@
+.header-text {
+  background-color: #666666;
+  -webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: rgba(255,255,255,0.5) 0px 3px 3px;
+  justify-content: center;
+}
+
+.forgot-table {
+  margin-left: 10%;
+  width: 80%;
+}
+.forgot-field {
+  width: 100%;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+
+}
+.register {
+  width: 100%;
+  text-align: center;
+}
+.clear {
+  padding: 10px;
+}
+.alert-danger{
+  color: darkmagenta;
+  font-size: x-small;
+}
+.mat-tab-label {
+  min-width: 25px !important;
+  background-color: transparent;
+  color: black;
+  font-weight: 700;
+  width: 50%;
+}
+
+/* Styles for the active tab label */
+.mat-tab-label.mat-tab-label-active {
+  min-width: 25px !important;
+  background-color: #4D6988 !important; opacity: 1;
+  color: white;
+  font-weight: 700;
+  background: #575f74;
+}
