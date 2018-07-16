@@ -19,7 +19,7 @@ public class Reservation implements Serializable {
 
     @NotNull
     @ManyToOne
-    private RegistrationPlayground registrationPlayground;
+    private RegistrationPlace registrationPlace;
 
     @Column(name = "state")
     private String state;
@@ -46,12 +46,12 @@ public class Reservation implements Serializable {
         this.user = user;
     }
 
-    public RegistrationPlayground getRegistrationPlayground() {
-        return registrationPlayground;
+    public RegistrationPlace getRegistrationPlace() {
+        return registrationPlace;
     }
 
-    public void setRegistrationPlayground(RegistrationPlayground registrationPlayground) {
-        this.registrationPlayground = registrationPlayground;
+    public void setRegistrationPlace(RegistrationPlace registrationPlace) {
+        this.registrationPlace = registrationPlace;
     }
 
     public String getState() {
@@ -83,7 +83,7 @@ public class Reservation implements Serializable {
         return "Reservation{" +
                 "id=" + id +
                 ", user=" + user +
-                ", registrationPlayground=" + registrationPlayground +
+                ", registrationPlace=" + registrationPlace +
                 ", state='" + state + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

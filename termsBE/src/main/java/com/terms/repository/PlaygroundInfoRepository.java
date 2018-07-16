@@ -1,13 +1,13 @@
 package com.terms.repository;
 
-import com.terms.domen.PlaygroundInfo;
+import com.terms.domen.PlaceInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Repository
-public interface PlaygroundInfoRepository extends JpaRepository<PlaygroundInfo, Long> {
+public interface PlaygroundInfoRepository extends JpaRepository<PlaceInfo, Long> {
 
-    List<PlaygroundInfo> findByPlayground(Long id);
+    List<PlaceInfo> findByPlayground(Long id);
 }

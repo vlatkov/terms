@@ -5,23 +5,24 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "playground_info")
-public class PlaygroundInfo implements Serializable {
+public class PlaceInfo implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @ManyToOne
-    private Playground playground;
+    private Place place;
 
     @Column(name = "price")
     private float price;
 
-    @Column(name = "number_players")
-    private Long numberPlayers;
+    @Column(name = "number_participants")
+    private Long numberParticipants;
 
-    @Column(name = "playground_type")
+    @Column(name = "place_type")
     private String playgrounType;
+
 
     public Long getId() {
         return id;
@@ -31,28 +32,29 @@ public class PlaygroundInfo implements Serializable {
         this.id = id;
     }
 
-    public Playground getPlayground() {
-        return playground;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setPlayground(Playground playground) {
-        this.playground = playground;
+    public void setPlace(Place place) {
+        this.place = place;
     }
 
     public float getPrice() {
         return price;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(float price)
+    {
         this.price = price;
     }
 
-    public Long getNumberPlayers() {
-        return numberPlayers;
+    public Long getNumberParticipants() {
+        return numberParticipants;
     }
 
-    public void setNumberPlayers(Long numberPlayers) {
-        this.numberPlayers = numberPlayers;
+    public void setNumberParticipants(Long numberParticipants) {
+        this.numberParticipants = numberParticipants;
     }
 
     public String getPlaygrounType() {

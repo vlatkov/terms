@@ -1,13 +1,15 @@
 package com.terms.domen;
 
+import com.sun.istack.internal.Nullable;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 
 @Entity
-@Table(name = "playground")
-public class Playground implements Serializable {
+@Table(name = "place")
+public class Place implements Serializable {
 
     static final long serialVersionUID=1L;
 
@@ -31,8 +33,33 @@ public class Playground implements Serializable {
     @NotNull
     private float longitudeLocation;
 
+    @Column(name = "active")
+    private boolean active;
+
     @ManyToOne
+    @Column(name = "region_id")
     private Region region;
+
+    @ManyToOne
+    @Column(nullable = false, name = "sub_category_id")
+    private SubCategory subCategory;
+
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public SubCategory getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(SubCategory subCategory) {
+        this.subCategory = subCategory;
+    }
 
     public Long getId() {
         return id;

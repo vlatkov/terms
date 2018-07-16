@@ -3,25 +3,27 @@ server:
   path: "localhost:"
   protocol: http://
 
+
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/playgrounds?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3306/terms?useUnicode=true&characterEncoding=utf8&useSSL=false
     username: root
     password: root
   jpa:
     hibernate:
-      ddl-auto:
+      ddl-auto: create
     show-sql: true
     database: mysql
-
-
-  jackson:
-    serialization:
-      INDENT_OUTPUT: true
+  profiles:
+    active: dev
 
 flyway:
   locations: classpath:/flyway
   encoding: utf8
+
+  jackson:
+    serialization:
+      INDENT_OUTPUT: true
 
 jwt:
   header: Authorization

@@ -30,8 +30,16 @@ INSERT INTO region(city_id, name, code, flag_url) VALUES (2,"Žarkovo",11120, nu
 INSERT INTO region(city_id, name, code, flag_url) VALUES (2,"Blok 45",11150, null);
 INSERT INTO region(city_id, name, code, flag_url) VALUES (3,"Liman",21150, null);
 
-INSERT INTO playground(region_id, name, description, location_lat, location_lng) VALUES (1,"Teren1","Opis 1", 11.1111,12.1111);
-INSERT INTO playground(region_id, name, description, location_lat, location_lng) VALUES (2,"Teren2","Opis 2", 13.1111,14.1111);
+insert into category(name, description) VALUES ('Sport', 'Sportske aktivnosti');
+insert into category(name, description) VALUES ('Zdravstvo', 'Zdravstvene ustanove');
 
-INSERT INTO playground_info(playground_id, price, number_players, playground_type) VALUES (1,20,12,"Otvoreni");
-INSERT INTO playground_info(playground_id, price, number_players, playground_type) VALUES (2,25,14,"Zatvoreni");
+insert into sub_category(category_id, name, description) VALUES (1,'Mali fudbal', 'Tereni za mali fudbal');
+insert into sub_category(category_id, name, description) VALUES (2,'Laboratorija', 'Zdravstvena ustanova');
+
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,1,"Teren1","Opis 1", 11.1111,12.1111, 1);
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,1,"Teren2","Opis 2", 11.2221,14.1221, 1);
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,2,"Lab1","Opis 3", 11.2221,14.1221, 1);
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,2,"Lab2","Opis 4", 13.2221,10.1221, 1);
+
+insert into place_info(place_id, price, number_participants, place_type) VALUES (1,20,12,'Otvoreni teren');
+insert into place_info(place_id, price, number_participants, place_type) VALUES (1,25,12,'Otvoreni teren');

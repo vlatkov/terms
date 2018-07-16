@@ -1,8 +1,9 @@
 package com.terms.domen;
 
 import com.fasterxml.jackson.annotation.*;
+import com.sun.istack.internal.Nullable;
 import org.hibernate.validator.constraints.Email;
-import org.sonatype.inject.Nullable;
+
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
@@ -38,10 +39,16 @@ public class User implements Serializable {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Column(nullable = true, name = "new_password")
+    @Size(max = 256)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String newPassword;
+
+
     @Column(nullable = true, name = "address")
     private String address;
 
-    @Column(nullable = false, name = "phone")
+    @Column(nullable = true, name = "phone")
     @Size(min = 8, max = 15)
     private String phone;
 
@@ -60,7 +67,7 @@ public class User implements Serializable {
     private Date validFrom;
 
     @Column(nullable = true, name = "valid_to")
-    @Nullable
+
     private Date validTo;
 
     @Column(name = "confirm_password_token")
@@ -83,16 +90,25 @@ public class User implements Serializable {
     private Date lastPasswordResetDate;
 
 
-    @ManyToOne(fetch = FetchType.EAGER)
+  /*  @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "region_id")
-    private Region region;
+    private Region region;*/
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
+    @Nullable
     @JoinTable(
             name = "role_user",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private List<Role> authorities;
+
+    @ManyToMany
+    @Nullable
+    @JoinTable(
+            name = "region_user",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "region_id", referencedColumnName = "id")})
+    private List<Region> regions;
 
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
@@ -102,15 +118,30 @@ public class User implements Serializable {
         this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-
-    public Region getRegion() {
-        return region;
+    public String getNewPassword() {
+        return newPassword;
     }
 
-    public void setRegion(Region region) {
-        this.region = region;
+    public void setNewPassword(String newPassword) {
+        this.newPassword = newPassword;
     }
 
+    public List<Region> getRegions() {
+        return regions;
+    }
+
+    public void setRegions(List<Region> regions) {
+        this.regions = regions;
+    }
+
+    /* public Region getRegion() {
+            return region;
+        }
+
+        public void setRegion(Region region) {
+            this.region = region;
+        }
+    */
     public Long getId() {
         return id;
     }
@@ -258,7 +289,6 @@ public class User implements Serializable {
                 ", active=" + active +
                 ", imgUrl='" + imgUrl + '\'' +
                 ", lastPasswordResetDate=" + lastPasswordResetDate +
-                ", region=" + region +
                 ", authorities=" + authorities +
                 '}';
     }

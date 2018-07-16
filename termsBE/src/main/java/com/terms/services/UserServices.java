@@ -23,7 +23,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.core.env.Environment;
 
-import javax.inject.Named;
 import java.util.*;
 
 
@@ -233,7 +232,7 @@ public class UserServices {
     */
     // @Scheduled(fixedDelayString = "${scheduler.delay}")
     @Transactional
-    @Named(value = "Delete users")
+    // @Named(value = "Delete users")
     public void deleteUnConfirmedUser(){
        Date date = new Date();
         userRepository.deleteAllByTokenExpirationDateLessThan(date);

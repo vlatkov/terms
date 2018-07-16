@@ -26,7 +26,7 @@ public class PlaygroundService {
 
     public PlaygroundDTO findOne(Long playgroundId){
         PlaygroundDTO playgroundDTO = new PlaygroundDTO();
-        playgroundDTO.setPlaygroundInfos(playgroundInfoRepository.findByPlayground(playgroundId));
+        playgroundDTO.setPlaceInfos(playgroundInfoRepository.findByPlayground(playgroundId));
         playgroundDTO.setPlayground(playgroundRepository.findOne(playgroundId));
 
         return playgroundDTO;

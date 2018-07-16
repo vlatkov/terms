@@ -8,7 +8,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "registration_playground")
-public class RegistrationPlayground implements Serializable {
+public class RegistrationPlace implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -20,7 +20,7 @@ public class RegistrationPlayground implements Serializable {
 
     @NotNull
     @ManyToOne
-    private Playground playground;
+    private Place place;
 
     @Column(name = "active")
     private Boolean active;
@@ -50,12 +50,12 @@ public class RegistrationPlayground implements Serializable {
         this.user = user;
     }
 
-    public Playground getPlayground() {
-        return playground;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setPlayground(Playground playground) {
-        this.playground = playground;
+    public void setPlace(Place place) {
+        this.place = place;
     }
 
     public Boolean getActive() {
@@ -95,7 +95,7 @@ public class RegistrationPlayground implements Serializable {
         return "RegistrationPlayground{" +
                 "id=" + id +
                 ", user=" + user +
-                ", playground=" + playground +
+                ", place=" + place +
                 ", active=" + active +
                 ", dateCreated=" + dateCreated +
                 ", validFrom=" + validFrom +

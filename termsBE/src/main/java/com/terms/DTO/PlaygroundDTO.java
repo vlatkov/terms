@@ -1,36 +1,36 @@
 package com.terms.DTO;
 
 
-import com.terms.domen.Playground;
-import com.terms.domen.PlaygroundInfo;
+import com.terms.domen.Place;
+import com.terms.domen.PlaceInfo;
 
 import java.util.List;
 
 public class PlaygroundDTO {
 
-    private Playground playground;
-    private List<PlaygroundInfo> playgroundInfos;
+    private Place place;
+    private List<PlaceInfo> placeInfos;
 
     public PlaygroundDTO(){}
 
-    public PlaygroundDTO(Playground playground, List<PlaygroundInfo> playgroundInfo) {
-        this.playground = playground;
-        this.playgroundInfos = playgroundInfo;
+    public PlaygroundDTO(Place place, List<PlaceInfo> placeInfo) {
+        this.place = place;
+        this.placeInfos = placeInfo;
     }
 
-    public Playground getPlayground() {
-        return playground;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setPlayground(Playground playground) {
-        this.playground = playground;
+    public void setPlace(Place place) {
+        this.place = place;
     }
 
-    public List<PlaygroundInfo> getPlaygroundInfos() {
-        return playgroundInfos;
+    public List<PlaceInfo> getPlaceInfos() {
+        return placeInfos;
     }
 
-    public void setPlaygroundInfos(List<PlaygroundInfo> playgroundInfos) {
-        this.playgroundInfos = playgroundInfos;
+    public void setPlaceInfos(List<PlaceInfo> placeInfos) {
+        this.placeInfos = placeInfos;
     }
 }
