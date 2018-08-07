@@ -4,9 +4,6 @@ import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 
-/**
- * Created by vlatko on 13.7.18..
- */
 @Entity
 @Table(name = "category")
 public class Category implements Serializable  {

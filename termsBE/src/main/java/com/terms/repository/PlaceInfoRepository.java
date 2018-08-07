@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlaygroundInfoRepository extends JpaRepository<PlaceInfo, Long> {
+public interface PlaceInfoRepository extends JpaRepository<PlaceInfo, Long> {
 
-    List<PlaceInfo> findByPlayground(Long id);
+    List<PlaceInfo> findByPlace(Long id);
 }

@@ -14,11 +14,9 @@ public class Comment implements Serializable{
     private Long id;
 
     @ManyToOne
-    @Column(name = "user_id")
     private User user;
 
     @ManyToOne
-    @Column(name = "registration_place_id")
     private RegistrationPlace registrationPlace;
 
     @Column(name = "date_created")

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.ByteArrayOutputStream;
@@ -22,7 +23,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-
 
 
 @Service
@@ -53,35 +53,41 @@ public class EmailService {
 
     //@Async
     @Transactional
-    public void sendMailHtml(MailInfo mail, Map<String, Object> params, String template, String image, String imageType)  {
-    try
-    {
+    public void sendMailHtml(MailInfo mail, Map<String, Object> params, String template, String image, String imageType, String... type) {
 
-        InputStream inputStream = null;
-        final Context ctx = new Context();
-        ctx.setVariables(params);
+        try {
 
-        String html = springTemplateEngine.process(template, ctx);
+            InputStream inputStream = null;
+            final Context ctx = new Context();
+            ctx.setVariables(params);
 
-        MimeMessage message = javaMailSender.createMimeMessage();
-        message.setSubject(mail.getSubject());
-        MimeMessageHelper helper;
-        helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-        helper.setFrom(mail.getFrom());
-        helper.setTo(mail.getTo());
-        helper.setText(html, true);
+            String html = springTemplateEngine.process(template, ctx);
 
-        inputStream = this.getClass().getClassLoader().getResourceAsStream("templates/img/" + image);
-        byte[] imageByteArray = this.extract(inputStream);
-        final InputStreamSource inputStreamSource = new ByteArrayResource(imageByteArray);
-        helper.addInline(image, inputStreamSource, imageType);
+            MimeMessage message = javaMailSender.createMimeMessage();
 
-        javaMailSender.send(message);
+            if (type[0].equals("create"))
+                message.setSubject(mail.getSubject()) ;
 
-    }catch (MessagingException e){
+             else
+                message.setSubject(mail.getChangePasswordSubject());
 
-        throw new MailErrorException(e.getMessage());
-    }
+            MimeMessageHelper helper;
+            helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
+            helper.setFrom(mail.getFrom());
+            helper.setTo(mail.getTo());
+            helper.setText(html, true);
+
+            inputStream = this.getClass().getClassLoader().getResourceAsStream("templates/img/" + image);
+            byte[] imageByteArray = this.extract(inputStream);
+            final InputStreamSource inputStreamSource = new ByteArrayResource(imageByteArray);
+            helper.addInline(image, inputStreamSource, imageType);
+
+            javaMailSender.send(message);
+
+        } catch (MessagingException e) {
+
+            throw new MailErrorException(e.getMessage());
+        }
 
     }
 
@@ -90,13 +96,13 @@ public class EmailService {
             final byte[] buffer = new byte[(int) Math.min(Integer.MAX_VALUE, input.available() * 1.25)];
             try (final ByteArrayOutputStream baos = new ByteArrayOutputStream(buffer.length); //
                  final InputStream autoCloseInputStream = input) { // because it is fully consumed here
-                for (int read; (read = autoCloseInputStream.read(buffer, 0, buffer.length)) != -1;) {
+                for (int read; (read = autoCloseInputStream.read(buffer, 0, buffer.length)) != -1; ) {
                     baos.write(buffer, 0, read);
                 }
                 baos.flush();
                 return baos.toByteArray();
             }
-        }catch (IOException e){
+        } catch (IOException e) {
 
             throw new MailErrorException(e.getMessage());
         }

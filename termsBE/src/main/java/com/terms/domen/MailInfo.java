@@ -19,6 +19,8 @@ public class MailInfo {
     private String to;
     private String message;
     private final String afterConfirmLoginUrl;
+    private final String changePasswordBody;
+    private final String changePasswordSubject;
 
     @Autowired
     public MailInfo(Environment environment){
@@ -31,6 +33,8 @@ public class MailInfo {
         this.confirm = environment.getProperty("mail.confirmUser.path");
         this.reset = environment.getProperty("mail.resetPass.path");
         this.afterConfirmLoginUrl = environment.getProperty("mail.afterConfirmLoginUrl");
+        this.changePasswordBody = environment.getProperty("mail.changePasswordBody");
+        this.changePasswordSubject = environment.getProperty("mail.changePassword.subject");
     }
 
 
@@ -84,5 +88,13 @@ public class MailInfo {
 
     public String getAfterConfirmLoginUrl() {
         return afterConfirmLoginUrl;
+    }
+
+    public String getChangePasswordBody() {
+        return changePasswordBody;
+    }
+
+    public String getChangePasswordSubject() {
+        return changePasswordSubject;
     }
 }

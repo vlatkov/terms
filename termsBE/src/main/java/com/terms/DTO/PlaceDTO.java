@@ -3,17 +3,19 @@ package com.terms.DTO;
 
 import com.terms.domen.Place;
 import com.terms.domen.PlaceInfo;
+import com.terms.domen.Region;
 
 import java.util.List;
 
-public class PlaygroundDTO {
+public class PlaceDTO {
 
     private Place place;
+    private Region region;
     private List<PlaceInfo> placeInfos;
 
-    public PlaygroundDTO(){}
+    public PlaceDTO(){}
 
-    public PlaygroundDTO(Place place, List<PlaceInfo> placeInfo) {
+    public PlaceDTO(Place place, List<PlaceInfo> placeInfo) {
         this.place = place;
         this.placeInfos = placeInfo;
     }

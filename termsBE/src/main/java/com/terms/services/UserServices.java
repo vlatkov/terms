@@ -12,11 +12,9 @@ import com.terms.resource.UserRest;
 
 import com.terms.security.login.ResetKey;
 
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,7 +47,7 @@ public class UserServices {
     @Autowired
     Environment environment;
 
-    public UserServices(BCryptPasswordEncoder bCryptPasswordEncoder){
+    public UserServices(BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -60,7 +58,7 @@ public class UserServices {
 
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         user.setConfirmPasswordToken(ResetKey.generateRandomHexToken(50));
-        user.setTokenExpirationDate(FormatDate.calculateExpiryDate(24*60));
+        user.setTokenExpirationDate(FormatDate.calculateExpiryDate(24 * 60));
         return this.userRepository.save(user);
     }
 
@@ -71,53 +69,57 @@ public class UserServices {
     public User createAndUpdateUserAndSendMail(User user) throws RuntimeException {
 
 
-            MailInfo mailInfo = new MailInfo(environment);
-            ObjectMapper objectMapper = new ObjectMapper();
+        MailInfo mailInfo = new MailInfo(environment);
+        ObjectMapper objectMapper = new ObjectMapper();
 
-            String service = mailInfo.getProtocol() +
-                    mailInfo.getAddress() +
-                    mailInfo.getPort() +
-                    mailInfo.getConfirm();
-            String content = mailInfo.getBody() + System.getProperty("line.separator");
+        String service = mailInfo.getProtocol() +
+                mailInfo.getAddress() +
+                mailInfo.getPort() +
+                mailInfo.getConfirm();
+        String content = mailInfo.getBody() + System.getProperty("line.separator");
 
-            if(user.getId() != null)
-            {
-                log.info("PUT - SUCCESS - PUT USER -" + user.getUserName());
-                User existsUser = this.updateUserPartial(user.getId(), objectMapper.convertValue(user,Map.class));
-                return existsUser;
-            }
-            else {
-                Map<String, Object> params = new HashMap<>();
-                params.put("password", user.getPassword());
-                User newUser = this.create(user);
-                log.info("POST - SUCCESS - CREATED USER -" + user.getUserName());
+        if (user.getId() != null) {
+            log.info("PUT - SUCCESS - PUT USER -" + user.getUserName());
+            User existsUser = this.updateUserPartial(user.getId(), objectMapper.convertValue(user, Map.class));
+            return existsUser;
+        } else {
+            Map<String, Object> params = new HashMap<>();
+            params.put("password", user.getPassword());
+            User newUser = this.create(user);
+            log.info("POST - SUCCESS - CREATED USER -" + user.getUserName());
 
-                UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(service)
-                        .queryParam("id", newUser.getId())
-                        .queryParam("key", TokenCoder.encode(newUser.getConfirmPasswordToken()));
-                mailInfo.setMessage(uriComponentsBuilder.toUriString());
-                mailInfo.setTo(newUser.getEmail());
+            UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(service)
+                    .queryParam("id", newUser.getId())
+                    .queryParam("key", TokenCoder.encode(newUser.getConfirmPasswordToken()))
+                    .queryParam("type", "c");
+            mailInfo.setMessage(uriComponentsBuilder.toUriString());
+            mailInfo.setTo(newUser.getEmail());
 
-                params.put("name", newUser.getFirstName() + " " + newUser.getLastName());
-                params.put("username", newUser.getUserName());
-                params.put("link", mailInfo.getMessage());
+            params.put("name", newUser.getFirstName() + " " + newUser.getLastName());
+            params.put("username", newUser.getUserName());
+            params.put("link", mailInfo.getMessage());
 
-                String imageType = "image/png";
-                String image = "logo1.png";
-                String template = "mailTemplate";
-                emailService.sendMailHtml(mailInfo, params, template, image, imageType);
+            String imageType = "image/png";
+            String image = "logo1.png";
+            String template = "mailTemplate";
+            emailService.sendMailHtml(mailInfo, params, template, image, imageType, "create");
 
-                return newUser;
-            }
+            return newUser;
+        }
     }
 
     @Transactional
-    public User confirmUser(Long id, User user) {
+    public User confirmUser(Long id, User user, String type) {
 
         Map<String, Object> params = new HashMap<>();
-        params.put("active",true);
-        params.put("tokenExpirationDate",null);
-        params.put("confirmPasswordToken",null);
+
+        if (type.equals("u")){
+            params.put("newPassword", null);
+            params.put("password", user.getNewPassword());
+        }
+        params.put("active", true);
+        params.put("tokenExpirationDate", null);
+        params.put("confirmPasswordToken", null);
         params.put("lastPasswordResetDate", new Date());
         UpdateWithPatch updateWithPatch = new UpdateWithPatch(user, params);
         user = (User) updateWithPatch.getObject();
@@ -126,7 +128,7 @@ public class UserServices {
     }
 
     @Transactional
-    public User updateUserPartial(Long id, Map<String,Object> params) {
+    public User updateUserPartial(Long id, Map<String, Object> params) {
 
         boolean changePass = false;
         User user = this.findOne(id);
@@ -138,36 +140,43 @@ public class UserServices {
                 mailInfo.getPort() +
                 mailInfo.getConfirm();
         String content = mailInfo.getBody() + System.getProperty("line.separator");
+        Map<String, Object> outParams = new HashMap<>();
 
-        if (params.containsKey("password")){
+        if (params.containsKey("password")) {
 
-            params.put("password",bCryptPasswordEncoder.encode(params.get("password").toString()));
-            params.put("confirmPasswordToken",TokenCoder.encode(ResetKey.generateRandomHexToken(50)));
-            params.put("tokenExpirationDate",FormatDate.calculateExpiryDate(24*60));
-            params.put("active", false);
+            outParams.put("password", bCryptPasswordEncoder.encode(params.get("password").toString()));
+            outParams.put("confirmPasswordToken", TokenCoder.encode(ResetKey.generateRandomHexToken(50)));
+            outParams.put("tokenExpirationDate", FormatDate.calculateExpiryDate(24 * 60));
+            outParams.put("active", false);
+            changePass = true;
+        } else if (params.containsKey("newpassword")){
+            outParams.put("newPassword", bCryptPasswordEncoder.encode(params.get("newpassword").toString()));
+            outParams.put("confirmPasswordToken", TokenCoder.encode(ResetKey.generateRandomHexToken(50)));
+            outParams.put("tokenExpirationDate", FormatDate.calculateExpiryDate(24 * 60));
+            outParams.put("active", false);
             changePass = true;
         }
-        UpdateWithPatch updateWithPatch = new UpdateWithPatch(user, params);
+        UpdateWithPatch updateWithPatch = new UpdateWithPatch(user, outParams);
         user = (User) updateWithPatch.getObject();
         user.setId(id);
 
-        if (changePass)
-        {
+        if (changePass) {
             UriComponentsBuilder uriComponentsBuilder = UriComponentsBuilder.fromUriString(service)
                     .queryParam("id", user.getId())
-                    .queryParam("key", TokenCoder.encode(user.getConfirmPasswordToken()));
+                    .queryParam("key", TokenCoder.encode(user.getConfirmPasswordToken()))
+                    .queryParam("type", "u");
             mailInfo.setMessage(uriComponentsBuilder.toUriString());
             mailInfo.setTo(user.getEmail());
-            Map<String,Object> paramsMail = new HashMap<>();
-            params.put("name", user.getFirstName()+" " + user.getLastName());
+            Map<String, Object> paramsMail = new HashMap<>();
+            params.put("name", user.getFirstName() + " " + user.getLastName());
             params.put("username", user.getUserName());
-            //params.put("password",user.getPassword());
+            params.put("password", params.get("newpassword").toString());
             params.put("link", mailInfo.getMessage());
 
             String imageType = "image/png";
             String image = "logo1.png";
             String template = "mailTemplate";
-            emailService.sendMailHtml(mailInfo,params,template,image, imageType) ;
+            emailService.sendMailHtml(mailInfo, params, template, image, imageType,"update");
 
 
         }
@@ -176,7 +185,7 @@ public class UserServices {
     }
 
 
-    public User exists(User user){
+    public User exists(User user) {
         return userRepository.findByUserName(user.getUserName());
     }
 
@@ -185,7 +194,7 @@ public class UserServices {
     *    @see - Get all users
     */
 
-    public List<User> allUser(){
+    public List<User> allUser() {
         return userRepository.findAll();
     }
 
@@ -196,7 +205,7 @@ public class UserServices {
         userRepository.deleteAllById(id);
     }
 
-    public User findOne(Long id){
+    public User findOne(Long id) {
         return userRepository.findOne(id);
     }
 
@@ -207,18 +216,18 @@ public class UserServices {
     /*
     *   @param Object user for update all visible information
     */
-    public User updateUser(User user){
+    public User updateUser(User user) {
         return userRepository.save(user);
     }
 
-    public User findUserByIdAndKey(Long id, String key){
+    public User findUserByIdAndKey(Long id, String key) {
         return userRepository.findAllByIdAndConfirmPasswordToken(id, key);
     }
 
-    public User checkExistsUserByParameter(Map<String,Object> param) {
+    public User checkExistsUserByParameter(Map<String, Object> param) {
 
         User user = null;
-        if (param.containsKey("email")){
+        if (param.containsKey("email")) {
             user = userRepository.findUserByEmail(param.get("email").toString());
         }
         if (param.containsKey("username")) {
@@ -226,6 +235,7 @@ public class UserServices {
         }
         return user;
     }
+
     /*
     *
     *  Delete all unconfirmed user
@@ -233,17 +243,18 @@ public class UserServices {
     // @Scheduled(fixedDelayString = "${scheduler.delay}")
     @Transactional
     // @Named(value = "Delete users")
-    public void deleteUnConfirmedUser(){
-       Date date = new Date();
+    public void deleteUnConfirmedUser() {
+        Date date = new Date();
         userRepository.deleteAllByTokenExpirationDateLessThan(date);
         this.traceLog();
     }
+
     /*
     * @Print tracelog for current method
     * */
-    private void traceLog(){
-    StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
-        log.info("Task execute - " +stacktrace[2].toString());
+    private void traceLog() {
+        StackTraceElement[] stacktrace = Thread.currentThread().getStackTrace();
+        log.info("Task execute - " + stacktrace[2].toString());
     }
 
 

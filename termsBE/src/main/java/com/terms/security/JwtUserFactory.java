@@ -22,6 +22,7 @@ public final class JwtUserFactory {
                 user.getFirstName(),
                 user.getLastName(),
                 user.getPassword(),
+                user.getNewPassword(),
                 user.getEmail(),
                 user.getActive(),
                 user.getImgUrl(),

@@ -2,9 +2,17 @@ package com.terms.domen;
 
 
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.sun.istack.internal.Nullable;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 //@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
@@ -17,7 +25,7 @@ public class Region implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @JoinColumn(name = "city_id")
     private City city;
 
@@ -28,6 +36,19 @@ public class Region implements Serializable {
     @Column(name = "code")
     @Size(max = 256)
     private String code;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")
+    private Set<Place> places;
+
+    public Region(){}
+
+    public Set<Place> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(Set<Place> places) {
+        this.places = places;
+    }
 
 
     public Long getId() {
@@ -60,10 +81,6 @@ public class Region implements Serializable {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public Region() {
-
     }
 
     @Override

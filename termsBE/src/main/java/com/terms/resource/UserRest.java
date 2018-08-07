@@ -94,7 +94,7 @@ public class UserRest {
     /*
     *   @param Delete new User
     */
-    @RequestMapping(value = "/user/{Id}",
+    @RequestMapping(value = "/user/{id}",
             method = RequestMethod.DELETE)
     public ResponseEntity<User> deleteUser(@PathVariable Long id) {
         log.info("DELETE user with params = " + id);
@@ -107,7 +107,7 @@ public class UserRest {
     /*
     *   @param Get user via ID
     */
-    @RequestMapping(value = "/user/{Id}",
+    @RequestMapping(value = "/user/{id}",
             method = RequestMethod.GET)
     public ResponseEntity<User> getUser(@PathVariable Long id){
         log.info("GET user with ID = " + id);
@@ -117,7 +117,7 @@ public class UserRest {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "/user/{Id}",
+    @RequestMapping(value = "/user/{id}",
                     method = RequestMethod.PUT)
     public ResponseEntity<User> updateUser(@RequestBody User user,
                                            @PathVariable Long id){

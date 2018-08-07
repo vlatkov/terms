@@ -16,6 +16,7 @@ public class JwtUser implements UserDetails {
     private final String firstName;
     private final String lastName;
     private final String password;
+    private final String newPassword;
     private final String email;
     private final String phone;
     private final Date lastPasswordResetDate;
@@ -30,6 +31,7 @@ public class JwtUser implements UserDetails {
             String firstName,
             String lastName,
             String password,
+            String newPassword,
             String email,
             boolean active,
             String imgUrl,
@@ -44,6 +46,7 @@ public class JwtUser implements UserDetails {
         this.lastName = lastName;
         this.email = email;
         this.password = password;
+        this.newPassword = newPassword;
         this.active = active;
         this.imgUrl = imgUrl;
         this.phone = phone;
@@ -99,6 +102,11 @@ public class JwtUser implements UserDetails {
     @Override
     public String getPassword() {
         return password;
+    }
+
+    @JsonIgnore
+    public String getNewPassword() {
+        return newPassword;
     }
 
     @Override

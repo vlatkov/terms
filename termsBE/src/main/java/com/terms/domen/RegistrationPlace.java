@@ -7,7 +7,7 @@ import java.util.Date;
 
 
 @Entity
-@Table(name = "registration_playground")
+@Table(name = "registration_place")
 public class RegistrationPlace implements Serializable {
 
     @Id
@@ -90,17 +90,6 @@ public class RegistrationPlace implements Serializable {
         this.validTo = validTo;
     }
 
-    @Override
-    public String toString() {
-        return "RegistrationPlayground{" +
-                "id=" + id +
-                ", user=" + user +
-                ", place=" + place +
-                ", active=" + active +
-                ", dateCreated=" + dateCreated +
-                ", validFrom=" + validFrom +
-                ", validTo=" + validTo +
-                '}';
-    }
+
 
 }

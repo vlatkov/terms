@@ -179,7 +179,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `last_name` varchar(25) NOT NULL,
   `user_name` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `new_password` varchar(255) NOT NULL,
+  `new_password` varchar(255) default NULL,
   `address` varchar(100) default NULL,
   `phone` varchar(25) default NULL,
   `email` varchar(50) NOT NULL,
@@ -346,7 +346,6 @@ CREATE TABLE IF NOT EXISTS `notification_settings` (
   `period_type` varchar(50) default NULL,
   `scheduled` datetime default null,
   PRIMARY KEY (`id`),
-  KEY `reservation_id` (`reservation_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 

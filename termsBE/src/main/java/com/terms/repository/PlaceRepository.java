@@ -1,6 +1,7 @@
 package com.terms.repository;
 
-import com.terms.domen.Playground;
+import com.terms.domen.Place;
+import com.terms.domen.Place;
 import com.terms.domen.Region;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -8,8 +9,8 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface PlaygroundRepository extends JpaRepository<Playground, Long> {
+public interface PlaceRepository extends JpaRepository<Place, Long> {
 
-    List<Playground> findAllByRegion(Region region);
+    List<Place> findAllByRegion(Region region);
 
 }

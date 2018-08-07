@@ -1,6 +1,6 @@
 package com.terms.resource;
 
-import com.terms.services.PlaygroundService;
+import com.terms.services.PlaceService;
 import com.terms.services.RegionServices;
 import org.hyalinedto.exception.HyalineException;
 import org.slf4j.Logger;
@@ -23,7 +23,7 @@ public class RegionRest {
     RegionServices regionServices;
 
     @Autowired
-    PlaygroundService playgroundService;
+    PlaceService placeService;
 
     @RequestMapping(value = "/region/{id}",
             method = RequestMethod.GET,
@@ -33,11 +33,11 @@ public class RegionRest {
         return regionServices.findOneMappedRegion(id);
     }
 
-    @RequestMapping(value = "/region/{regionId}/playgrounds",
+    @RequestMapping(value = "/region/{regionId}/place",
             method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object allPlaygroundsFromRegion(@PathVariable Long regionId) throws HyalineException {
-        log.info("GET playgrounds for region ID =  ", regionId );
-        return regionServices.getPlaygroundsFromRegion(regionId);
+    public Object allPlaceFromRegion(@PathVariable Long regionId) throws HyalineException {
+        log.info("GET places for region ID =  ", regionId );
+        return regionServices.getPlaceFromRegion(regionId);
     }
 }

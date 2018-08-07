@@ -1,10 +1,10 @@
 package com.terms.repository;
 
-import com.terms.domen.RegistrationPlayground;
+import com.terms.domen.RegistrationPlace;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RegistrationPlaygroundRepository extends JpaRepository<RegistrationPlayground, Long> {
+public interface RegistrationPlaceRepository extends JpaRepository<RegistrationPlace, Long> {
 
 }

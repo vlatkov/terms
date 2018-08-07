@@ -8,32 +8,28 @@ import java.util.List;
 public class RegionDTO {
 
     private Region region;
-    private List<PlaygroundDTO> playgroundsDtos;
+    private List<PlaceDTO> placeDTOS;
 
     public RegionDTO(){}
 
-    public RegionDTO(Region region, List<PlaygroundDTO> playgroundsDtos){
+    public RegionDTO(Region region, List<PlaceDTO> placeDTOS){
         this.region = region;
-        this.playgroundsDtos = playgroundsDtos;
-    }
-
-    public RegionDTO(Region region){
-        this.region = region;
+        this.placeDTOS = placeDTOS;
     }
 
     public Region getRegion() {
         return region;
     }
 
-    public List<PlaygroundDTO> getPlaygroundsDtos() {
-        return playgroundsDtos;
-    }
-
     public void setRegion(Region region) {
         this.region = region;
     }
 
-    public void setPlaygroundsDtos(List<PlaygroundDTO> playgroundsDtos) {
-        this.playgroundsDtos = playgroundsDtos;
+    public List<PlaceDTO> getPlaceDTOS() {
+        return placeDTOS;
+    }
+
+    public void setPlaceDTOS(List<PlaceDTO> placeDTOS) {
+        this.placeDTOS = placeDTOS;
     }
 }

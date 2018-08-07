@@ -1,6 +1,6 @@
 package com.terms.services;
 
-import com.terms.domen.Playground;
+import com.terms.domen.Place;
 import com.terms.domen.Region;
 import com.terms.repository.RegionRepository;
 import org.hyalinedto.api.DTO;
@@ -19,7 +19,7 @@ public class RegionServices {
     @Autowired
     RegionRepository regionRepository;
     @Autowired
-    PlaygroundService playgroundService;
+    PlaceService placeService;
     @Autowired
     RegionServices regionServices;
 
@@ -39,9 +39,9 @@ public class RegionServices {
         try {
 
             Region region = regionRepository.findOne(regionId);
-            List<Playground> playgrounds = playgroundService.findAllPlaygroundByRegion(region);
+            List<Place> places = placeService.findAllPlaceByRegion(region);
             attributes.put("region",region);
-            attributes.put("playground", playgrounds);
+            attributes.put("place", places);
 
         } catch (Exception e){
             return new HashMap<String, Object>(){{put("error",e.getMessage());}};
@@ -53,11 +53,11 @@ public class RegionServices {
     /*
         @Test komentar
     */
-    public Object getPlaygroundsFromRegion(Long regionId) throws HyalineException {
+    public Object getPlaceFromRegion(Long regionId) throws HyalineException {
         return Hyaline.dtoFromScratch(new DTO() {
 
             private Region region = regionServices.findOne(regionId);
-            private List<Playground> playgrounds = playgroundService.findAllPlaygroundByRegion(region);
+            private List<Place> places = placeService.findAllPlaceByRegion(region);
 
         });
     }

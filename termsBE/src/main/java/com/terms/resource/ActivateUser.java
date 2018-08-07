@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,8 +31,10 @@ public class ActivateUser {
     @Autowired
     private UserServices userServices;
 
-    @RequestMapping(value = "/confirm")
-    public ResponseEntity<?> activateUser(@RequestParam Long id, @RequestParam String key) throws URISyntaxException {
+    @RequestMapping(value = "/confirm",
+            method = RequestMethod.GET,
+            produces = MediaType.ALL_VALUE)
+    public ResponseEntity<?> activateUser(@RequestParam Long id, @RequestParam String key, @RequestParam String type) throws URISyntaxException {
 
         log.info("POST user with ID = " + id + " with params for update - RESETKEY " + key);
 
@@ -39,14 +42,17 @@ public class ActivateUser {
         URI url = new URI(mailInfo.getAfterConfirmLoginUrl());
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setLocation(url);
-
-        return Optional.ofNullable(userServices.confirmUser(id, user))
-                .map(result -> new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER))
+        if (user == null) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+        return Optional.ofNullable(type.equals("c") ? userServices.confirmUser(id, user, "c") : userServices.confirmUser(id, user, "u"))
+                .map(result -> new ResponseEntity<>(httpHeaders, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "/reset")
-    public ResponseEntity<User> resetPasswordUser(@PathVariable Long id, @RequestBody User user) throws IOException {
+    @RequestMapping(value = "/reset",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<User> resetUserPassword(@PathVariable Long id, @RequestBody User user) throws IOException {
 
         log.info("PUT user with username = ", user.getUserName());
         User existsUser = userServices.findOne(id);

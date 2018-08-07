@@ -1,6 +1,9 @@
 package com.terms.domen;
 
-import com.sun.istack.internal.Nullable;
+
+import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.LazyToOne;
+import org.hibernate.annotations.LazyToOneOption;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,30 +39,13 @@ public class Place implements Serializable {
     @Column(name = "active")
     private boolean active;
 
-    @ManyToOne
-    @Column(name = "region_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private Region region;
 
-    @ManyToOne
-    @Column(nullable = false, name = "sub_category_id")
+    @ManyToOne(fetch = FetchType.LAZY)
     private SubCategory subCategory;
 
-
-    public boolean isActive() {
-        return active;
-    }
-
-    public void setActive(boolean active) {
-        this.active = active;
-    }
-
-    public SubCategory getSubCategory() {
-        return subCategory;
-    }
-
-    public void setSubCategory(SubCategory subCategory) {
-        this.subCategory = subCategory;
-    }
+    public Place(){}
 
     public Long getId() {
         return id;
@@ -101,11 +87,27 @@ public class Place implements Serializable {
         this.longitudeLocation = longitudeLocation;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     public Region getRegion() {
         return region;
     }
 
     public void setRegion(Region region) {
         this.region = region;
+    }
+
+    public SubCategory getSubCategory() {
+        return subCategory;
+    }
+
+    public void setSubCategory(SubCategory subCategory) {
+        this.subCategory = subCategory;
     }
 }

@@ -1,8 +1,13 @@
 package com.terms.domen;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -25,6 +30,19 @@ public class SubCategory implements Serializable {
 
     @ManyToOne
     private Category category;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subCategory")
+    @JsonBackReference
+    private Set<Place> places = new HashSet<>();
+
+
+    public Set<Place> getPlaces() {
+        return places;
+    }
+
+    public void setPlaces(Set<Place> places) {
+        this.places = places;
+    }
 
     public Long getId() {
         return id;

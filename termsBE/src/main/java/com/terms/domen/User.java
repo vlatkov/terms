@@ -2,6 +2,7 @@ package com.terms.domen;
 
 import com.fasterxml.jackson.annotation.*;
 import com.sun.istack.internal.Nullable;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Email;
 
 
@@ -57,12 +58,14 @@ public class User implements Serializable {
     @Size(min = 5, max = 50)
     private String email;
 
-    @Transient
+
+    @CreationTimestamp
     @Column(nullable = false, name = "created_date")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Date createdDate;
 
-    @Transient
+
+    @CreationTimestamp
     @Column(nullable = true, name = "valid_from")
     private Date validFrom;
 
@@ -94,7 +97,7 @@ public class User implements Serializable {
     @JoinColumn(name = "region_id")
     private Region region;*/
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @Nullable
     @JoinTable(
             name = "role_user",
@@ -109,6 +112,7 @@ public class User implements Serializable {
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "region_id", referencedColumnName = "id")})
     private List<Region> regions;
+
 
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
@@ -126,6 +130,7 @@ public class User implements Serializable {
         this.newPassword = newPassword;
     }
 
+
     public List<Region> getRegions() {
         return regions;
     }
@@ -134,14 +139,6 @@ public class User implements Serializable {
         this.regions = regions;
     }
 
-    /* public Region getRegion() {
-            return region;
-        }
-
-        public void setRegion(Region region) {
-            this.region = region;
-        }
-    */
     public Long getId() {
         return id;
     }
@@ -278,6 +275,7 @@ public class User implements Serializable {
                 ", lastName='" + lastName + '\'' +
                 ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
+                ", newPassword='" + newPassword + '\'' +
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
@@ -290,6 +288,7 @@ public class User implements Serializable {
                 ", imgUrl='" + imgUrl + '\'' +
                 ", lastPasswordResetDate=" + lastPasswordResetDate +
                 ", authorities=" + authorities +
+                ", regions=" + regions +
                 '}';
     }
 

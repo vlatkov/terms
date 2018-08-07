@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "playground_info")
+@Table(name = "place_info")
 public class PlaceInfo implements Serializable {
 
     @Id
@@ -21,8 +21,7 @@ public class PlaceInfo implements Serializable {
     private Long numberParticipants;
 
     @Column(name = "place_type")
-    private String playgrounType;
-
+    private String placeType;
 
     public Long getId() {
         return id;
@@ -44,8 +43,7 @@ public class PlaceInfo implements Serializable {
         return price;
     }
 
-    public void setPrice(float price)
-    {
+    public void setPrice(float price) {
         this.price = price;
     }
 
@@ -57,11 +55,11 @@ public class PlaceInfo implements Serializable {
         this.numberParticipants = numberParticipants;
     }
 
-    public String getPlaygrounType() {
-        return playgrounType;
+    public String getPlaceType() {
+        return placeType;
     }
 
-    public void setPlaygrounType(String playgrounType) {
-        this.playgrounType = playgrounType;
+    public void setPlaceType(String placeType) {
+        this.placeType = placeType;
     }
 }
