@@ -1,23 +1,24 @@
 package com.terms.DTO;
 
 
-import com.terms.domen.Place;
-import com.terms.domen.PlaceInfo;
-import com.terms.domen.Region;
+import com.terms.domen.*;
+import org.springframework.security.core.context.SecurityContext;
 
 import java.util.List;
 
 public class PlaceDTO {
 
     private Place place;
-    private Region region;
-    private List<PlaceInfo> placeInfos;
+    private PlaceInfo placeInfo;
+    private RegistrationPlace registrationPlace;
+
 
     public PlaceDTO(){}
 
-    public PlaceDTO(Place place, List<PlaceInfo> placeInfo) {
+    public PlaceDTO(Place place, PlaceInfo placeInfo, RegistrationPlace registrationPlace) {
         this.place = place;
-        this.placeInfos = placeInfo;
+        this.placeInfo = placeInfo;
+        this.registrationPlace = registrationPlace;
     }
 
     public Place getPlace() {
@@ -28,11 +29,19 @@ public class PlaceDTO {
         this.place = place;
     }
 
-    public List<PlaceInfo> getPlaceInfos() {
-        return placeInfos;
+    public PlaceInfo getPlaceInfo() {
+        return placeInfo;
     }
 
-    public void setPlaceInfos(List<PlaceInfo> placeInfos) {
-        this.placeInfos = placeInfos;
+    public void setPlaceInfo(PlaceInfo placeInfo) {
+        this.placeInfo = placeInfo;
+    }
+
+    public RegistrationPlace getRegistrationPlace() {
+        return registrationPlace;
+    }
+
+    public void setRegistrationPlace(RegistrationPlace registrationPlace) {
+        this.registrationPlace = registrationPlace;
     }
 }

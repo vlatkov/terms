@@ -149,6 +149,7 @@ CREATE TABLE IF NOT EXISTS `country` (
   `name` varchar(100) NOT NULL,
   `code` varchar(100) default NULL,
   `flag_url` varchar(100) DEFAULT NULL,
+  `active` boolean default TRUE ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -159,6 +160,7 @@ CREATE TABLE IF NOT EXISTS `city` (
   `name` varchar(100) NOT NULL,
   `code` varchar(100) default NULL,
   `flag_url` varchar(100) default NULL,
+  `active` boolean default TRUE ,
   PRIMARY KEY (`id`),
   KEY (`country_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -185,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `email` varchar(50) NOT NULL,
   `active` boolean default false,
   `img_url` varchar(256) default NULL,
-  `created_date` DATETIME DEFAULT CURRENT_TIMESTAMP,
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `valid_from` DATETIME DEFAULT CURRENT_TIMESTAMP,
   `valid_to` DATETIME DEFAULT NULL,
   `last_password_reset_date` DATETIME default NULL,
@@ -199,6 +201,7 @@ CREATE TABLE IF NOT EXISTS `category` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
+  `active` boolean default TRUE ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -208,6 +211,7 @@ CREATE TABLE IF NOT EXISTS `sub_category` (
   `category_id` int(11) NOT NULL,
   `name` varchar(50) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
+  `active` boolean default TRUE ,
   PRIMARY KEY (`id`),
   KEY `category_id` (`category_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -217,11 +221,12 @@ CREATE TABLE IF NOT EXISTS `place` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `region_id` int(11) NOT NULL,
   `sub_category_id` int(11) NOT NULL,
+  `place_info_id` int(11) DEFAULT NULL,
   `name` varchar(50) NOT NULL,
   `description` varchar(200) DEFAULT NULL,
   `location_lat` decimal(18,10) NOT NULL,
   `location_lng` decimal(18,10) NOT NULL,
-  `active` boolean default 1,
+  `active` boolean default TRUE,
   PRIMARY KEY (`id`),
   KEY `sub_category_id` (`sub_category_id`),
   KEY `region_id` (`region_id`)
@@ -230,12 +235,10 @@ CREATE TABLE IF NOT EXISTS `place` (
 
 CREATE TABLE IF NOT EXISTS `place_info` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `place_id` int(11) NOT NULL,
   `price` decimal(10,0) default NULL,
   `number_participants` int(11) default NULL,
   `place_type` varchar(50) default NULL,
-  PRIMARY KEY (`id`),
-  KEY  `place_id` (`place_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
@@ -251,6 +254,7 @@ CREATE TABLE IF NOT EXISTS `role_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `role_id` int(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -259,6 +263,7 @@ CREATE TABLE IF NOT EXISTS `region_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `region_id` int(11) NOT NULL,
   `user_id` INT(11) NOT NULL,
+  `date_created` DATETIME DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -276,7 +281,8 @@ CREATE TABLE IF NOT EXISTS `registration_place` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `place_id` int(11) NOT NULL,
-  `active` boolean DEFAULT 1,
+  `active` boolean DEFAULT 0,
+  `activation_key` varchar(255) NOT NULL,
   `date_created` datetime DEFAULT NULL,
   `valid_from` datetime DEFAULT NULL,
   `valid_to` datetime DEFAULT NULL,
@@ -372,6 +378,7 @@ CREATE TABLE IF NOT EXISTS `reservation` (
   `user_id` int(11) NOT NULL,
   `place_reservation_id` int(11) NOT NULL,
   `reservation_state_id` int(11) NOT NULL,
+  `activation_key` varchar(255) NOT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),

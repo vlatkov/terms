@@ -6,8 +6,8 @@ ALTER TABLE region
   ADD CONSTRAINT FK_CityRegion FOREIGN KEY (city_id) REFERENCES city(id) on delete cascade;
 
 
-ALTER TABLE place_info
-  ADD CONSTRAINT FK_PlaceInfosPlace FOREIGN KEY (place_id) REFERENCES place(id) on delete cascade;
+ALTER TABLE place
+  ADD CONSTRAINT FK_PlaceInfosPlace FOREIGN KEY (place_info_id) REFERENCES place_info(id) on delete cascade;
 
 
 ALTER TABLE component

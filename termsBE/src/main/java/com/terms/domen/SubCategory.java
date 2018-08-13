@@ -1,6 +1,7 @@
 package com.terms.domen;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
@@ -31,8 +32,10 @@ public class SubCategory implements Serializable {
     @ManyToOne
     private Category category;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "subCategory")
-    @JsonBackReference
+    @OneToMany(mappedBy = "subCategory",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnore
     private Set<Place> places = new HashSet<>();
 
 

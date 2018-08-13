@@ -1,29 +1,30 @@
 package com.terms.resource;
 
 
-import com.google.gson.GsonBuilder;
 import com.terms.domen.Place;
-import com.terms.domen.Region;
-import com.terms.domen.SubCategory;
 import com.terms.repository.PlaceRepository;
 
 import com.terms.repository.RegionRepository;
 import com.terms.services.PlaceService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
 
 
-import java.util.ArrayList;
 import java.util.List;
-import com.google.gson.Gson;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "${api.path}",
-        produces = MediaType.APPLICATION_JSON_VALUE)
+        produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 public class PlaceRest {
+
+    private final Logger log = LoggerFactory.getLogger(PlaceRest.class);
 
     @Autowired
     PlaceRepository placeRepository;
@@ -33,25 +34,37 @@ public class PlaceRest {
     PlaceService placeService;
 
     @RequestMapping(value = "/place")
-    public List<Place> getAllPlaces(){
-
-        List<Place> places = placeService.findAll();
-        Region region = new Region();
-        region.setId(places.get(0).getRegion().getId());
-        region.setCity(places.get(0).getRegion().getCity());
-
-        Place place = places.get(0);
-        place.setRegion(regionRepository.findOne(places.get(0).getRegion().getId()));
-
-        place.setRegion(region);
-        Long subCategory = place.getSubCategory().getId();
-        return places;
-
+    @PreAuthorize(value = "hasAnyRole('ROLE_USER', 'ROLE_ADMIN')")
+    public ResponseEntity<List<Place>> getAllPlaces(){
+        List<Place> places = placeService.findAllPlaces();
+        return Optional.ofNullable(places)
+                .map(place -> new ResponseEntity<>(place, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
-    @RequestMapping(value = "/region")
-    public List<Region> getAllRegions(){
-
-    return regionRepository.findAll();
+    @RequestMapping(value = "/place",
+            method = RequestMethod.POST,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public ResponseEntity<Place> savePlace(@RequestBody Place place){
+        log.info("POST new Place " +place.toString());
+        return Optional.ofNullable(placeService.savePlace(place))
+                .map(result -> new ResponseEntity<>(result, HttpStatus.CREATED))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+
+    @RequestMapping(value = "/place/{city}",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN','ROLE_USER')")
+    public ResponseEntity<List<Place>> getPlaceFromCity(@PathVariable(value = "city") String city){
+        log.info("POST new Place " + city);
+
+        return Optional.ofNullable(placeService.findAllPlaceLikeCity(city))
+                .map(result -> new ResponseEntity<>(result, HttpStatus.CREATED))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+
 }

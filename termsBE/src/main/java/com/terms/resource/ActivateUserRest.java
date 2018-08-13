@@ -21,7 +21,7 @@ import java.net.URISyntaxException;
 import java.util.Optional;
 
 @RestController
-public class ActivateUser {
+public class ActivateUserRest {
 
     private final Logger log = LoggerFactory.getLogger(UserRest.class);
 

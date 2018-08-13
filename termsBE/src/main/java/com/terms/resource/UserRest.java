@@ -55,8 +55,8 @@ public class UserRest {
     ResponseEntity signUp(@RequestBody User user) {
 
         if (userServices.exists(user) == null) {
-            Gson gson = new Gson();
-            return ResponseEntity.ok(gson.toJson(userServices.createAndUpdateUserAndSendMail(user)));
+            //Gson gson = new Gson();
+            return ResponseEntity.ok(userServices.createAndUpdateUserAndSendMail(user));
         } else
             return new ResponseEntity(HttpStatus.BAD_REQUEST);
     }

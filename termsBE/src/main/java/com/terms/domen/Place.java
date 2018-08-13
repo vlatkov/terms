@@ -1,10 +1,6 @@
 package com.terms.domen;
 
 
-import com.fasterxml.jackson.annotation.*;
-import org.hibernate.annotations.LazyToOne;
-import org.hibernate.annotations.LazyToOneOption;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -12,9 +8,12 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "place")
+/*@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id")*/
 public class Place implements Serializable {
 
-    static final long serialVersionUID=1L;
+    static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -39,13 +38,21 @@ public class Place implements Serializable {
     @Column(name = "active")
     private boolean active;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @NotNull
     private Region region;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
+    @NotNull
     private SubCategory subCategory;
 
-    public Place(){}
+    @ManyToOne
+    @NotNull
+    private PlaceInfo placeInfo;
+
+
+    public Place() {
+    }
 
     public Long getId() {
         return id;
@@ -53,6 +60,14 @@ public class Place implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public PlaceInfo getPlaceInfo() {
+        return placeInfo;
+    }
+
+    public void setPlaceInfo(PlaceInfo placeInfo) {
+        this.placeInfo = placeInfo;
     }
 
     public String getName() {
@@ -109,5 +124,20 @@ public class Place implements Serializable {
 
     public void setSubCategory(SubCategory subCategory) {
         this.subCategory = subCategory;
+    }
+
+    @Override
+    public String toString() {
+        return "Place{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", latitudeLocation=" + latitudeLocation +
+                ", longitudeLocation=" + longitudeLocation +
+                ", active=" + active +
+                ", region=" + region +
+                ", subCategory=" + subCategory +
+                ", placeInfo=" + placeInfo +
+                '}';
     }
 }

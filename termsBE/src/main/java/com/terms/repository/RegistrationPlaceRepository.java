@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RegistrationPlaceRepository extends JpaRepository<RegistrationPlace, Long> {
 
+    RegistrationPlace findAllByPlace(Long Id);
 }

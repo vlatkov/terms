@@ -1,12 +1,15 @@
 package com.terms.domen;
 
 import com.fasterxml.jackson.annotation.*;
+
 import com.sun.istack.internal.Nullable;
+import com.sun.org.apache.xalan.internal.lib.ExsltDatetime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Email;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -60,9 +63,9 @@ public class User implements Serializable {
 
 
     @CreationTimestamp
-    @Column(nullable = false, name = "created_date")
+    @Column(nullable = false, name = "date_created")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Date createdDate;
+    private Date dateCreated;
 
 
     @CreationTimestamp
@@ -78,7 +81,6 @@ public class User implements Serializable {
     private String confirmPasswordToken;
 
     @Column(name = "token_expiration_date", nullable = true)
-    @Nullable
     private Date tokenExpirationDate;
 
     @Column(name = "active")
@@ -89,7 +91,6 @@ public class User implements Serializable {
     private String imgUrl;
 
     @Column(name = "last_password_reset_date", nullable = true)
-    @Nullable
     private Date lastPasswordResetDate;
 
 
@@ -98,7 +99,6 @@ public class User implements Serializable {
     private Region region;*/
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Nullable
     @JoinTable(
             name = "role_user",
             joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
@@ -227,12 +227,12 @@ public class User implements Serializable {
         this.authorities = authorities;
     }
 
-    public Date getCreatedDate() {
-        return createdDate;
+    public Date getDateCreated() {
+        return dateCreated;
     }
 
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
+    public void setDateCreated(Date dateCreated) {
+        this.dateCreated = dateCreated;
     }
 
     public Date getValidFrom() {
@@ -279,7 +279,7 @@ public class User implements Serializable {
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", createdDate=" + createdDate +
+                ", createdDate=" + dateCreated +
                 ", validFrom=" + validFrom +
                 ", validTo=" + validTo +
                 ", confirmPasswordToken='" + confirmPasswordToken + '\'' +

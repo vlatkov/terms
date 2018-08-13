@@ -5,7 +5,6 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
-
 @Entity
 @Table(name = "registration_place")
 public class RegistrationPlace implements Serializable {
@@ -19,11 +18,14 @@ public class RegistrationPlace implements Serializable {
     private User user;
 
     @NotNull
-    @ManyToOne
+    @ManyToOne()
     private Place place;
 
     @Column(name = "active")
     private Boolean active;
+
+    @Column(name = "activation_key")
+    private String activationKey;
 
     @Column(name = "date_created")
     private Date dateCreated;
@@ -90,6 +92,11 @@ public class RegistrationPlace implements Serializable {
         this.validTo = validTo;
     }
 
+    public String getActivationKey() {
+        return activationKey;
+    }
 
-
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
+    }
 }

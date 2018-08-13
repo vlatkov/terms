@@ -1,7 +1,11 @@
 package com.terms.domen;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "place_info")
@@ -10,9 +14,6 @@ public class PlaceInfo implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @ManyToOne
-    private Place place;
 
     @Column(name = "price")
     private float price;
@@ -23,20 +24,18 @@ public class PlaceInfo implements Serializable {
     @Column(name = "place_type")
     private String placeType;
 
+    @OneToMany(mappedBy = "placeInfo",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonIgnore
+    private Set<Place> places = new HashSet<>();
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Place getPlace() {
-        return place;
-    }
-
-    public void setPlace(Place place) {
-        this.place = place;
     }
 
     public float getPrice() {
@@ -61,5 +60,15 @@ public class PlaceInfo implements Serializable {
 
     public void setPlaceType(String placeType) {
         this.placeType = placeType;
+    }
+
+    @Override
+    public String toString() {
+        return "PlaceInfo{" +
+                "id=" + id +
+                ", price=" + price +
+                ", numberParticipants=" + numberParticipants +
+                ", placeType='" + placeType + '\'' +
+                '}';
     }
 }

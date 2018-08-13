@@ -36,10 +36,11 @@ insert into category(name, description) VALUES ('Zdravstvo', 'Zdravstvene ustano
 insert into sub_category(category_id, name, description) VALUES (1,'Mali fudbal', 'Tereni za mali fudbal');
 insert into sub_category(category_id, name, description) VALUES (2,'Laboratorija', 'Zdravstvena ustanova');
 
-INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,1,"Teren1","Opis 1", 11.1111,12.1111, 1);
-INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,1,"Teren2","Opis 2", 11.2221,14.1221, 1);
-INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,2,"Lab1","Opis 3", 11.2221,14.1221, 1);
-INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active) VALUES (1,2,"Lab2","Opis 4", 13.2221,10.1221, 1);
+insert into place_info(price, number_participants, place_type) VALUES (20,12,'Otvoreni teren');
+insert into place_info(price, number_participants, place_type) VALUES (25,12,'Otvoreni teren');
 
-insert into place_info(place_id, price, number_participants, place_type) VALUES (1,20,12,'Otvoreni teren');
-insert into place_info(place_id, price, number_participants, place_type) VALUES (1,25,12,'Otvoreni teren');
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active, place_info_id) VALUES (1,1,"Teren1","Opis 1", 11.1111,12.1111, 1, 2);
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active, place_info_id) VALUES (1,1,"Teren2","Opis 2", 11.2221,14.1221, 1, 2);
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active, place_info_id) VALUES (1,2,"Lab1","Opis 3", 11.2221,14.1221, 1, 1);
+INSERT INTO place(region_id, sub_category_id, name, description, location_lat, location_lng, active, place_info_id) VALUES (1,2,"Lab2","Opis 4", 13.2221,10.1221, 1, 1);
+

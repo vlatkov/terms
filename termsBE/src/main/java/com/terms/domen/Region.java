@@ -37,18 +37,21 @@ public class Region implements Serializable {
     @Size(max = 256)
     private String code;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "region")
-    private Set<Place> places;
+   /* @OneToMany(mappedBy = "region",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    @JsonBackReference
+    private Set<Place> places = new HashSet<>();*/
 
     public Region(){}
 
-    public Set<Place> getPlaces() {
+  /*  public Set<Place> getPlaces() {
         return places;
     }
 
     public void setPlaces(Set<Place> places) {
         this.places = places;
-    }
+    }*/
 
 
     public Long getId() {

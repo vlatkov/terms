@@ -21,6 +21,9 @@ public class Reservation implements Serializable {
     @ManyToOne
     private RegistrationPlace registrationPlace;
 
+    @Column(name = "activation_key")
+    private String activationKey;
+
     @Column(name = "state")
     private String state;
 
@@ -36,6 +39,14 @@ public class Reservation implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getActivationKey() {
+        return activationKey;
+    }
+
+    public void setActivationKey(String activationKey) {
+        this.activationKey = activationKey;
     }
 
     public User getUser() {
@@ -84,6 +95,7 @@ public class Reservation implements Serializable {
                 "id=" + id +
                 ", user=" + user +
                 ", registrationPlace=" + registrationPlace +
+                ", activationKey='" + activationKey + '\'' +
                 ", state='" + state + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
