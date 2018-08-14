@@ -1,4 +1,4 @@
-package com.terms.services;
+package com.terms.services.parseService;
 
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;

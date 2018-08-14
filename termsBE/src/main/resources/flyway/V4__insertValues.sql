@@ -1,6 +1,7 @@
-INSERT INTO role(name, description) VALUE ('ROLE_ADMIN', 'Rola administratora profila');
-INSERT INTO role(name, description) VALUE ('ROLE_USER', 'Rola korisničkog profila');
-INSERT INTO role(name, description) VALUE ('ROLE_SUPERUSER', 'Rola superuser profila');
+INSERT INTO role(name, description) VALUE ('ROLE_SUPERUSER', 'Rola superuser');
+INSERT INTO role(name, description) VALUE ('ROLE_ADMIN', 'Rola administratora');
+INSERT INTO role(name, description) VALUE ('ROLE_EMPLOYEE', 'Rola zaposlenog');
+INSERT INTO role(name, description) VALUE ('ROLE_CUSTOMER', 'Rola korisnika');
 
 INSERT into country(name, code, flag_url) VALUES("Crna Gora", "382", null);
 INSERT into country(name, code, flag_url) VALUES("Srbija", "381", null);

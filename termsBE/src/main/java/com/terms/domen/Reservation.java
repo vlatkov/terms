@@ -19,6 +19,10 @@ public class Reservation implements Serializable {
 
     @NotNull
     @ManyToOne
+    private User employee;
+
+    @NotNull
+    @ManyToOne
     private RegistrationPlace registrationPlace;
 
     @Column(name = "activation_key")
@@ -65,6 +69,14 @@ public class Reservation implements Serializable {
         this.registrationPlace = registrationPlace;
     }
 
+    public User getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(User employee) {
+        this.employee = employee;
+    }
+
     public String getState() {
         return state;
     }
@@ -94,6 +106,7 @@ public class Reservation implements Serializable {
         return "Reservation{" +
                 "id=" + id +
                 ", user=" + user +
+                ", employee=" + employee +
                 ", registrationPlace=" + registrationPlace +
                 ", activationKey='" + activationKey + '\'' +
                 ", state='" + state + '\'' +

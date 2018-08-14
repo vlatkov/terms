@@ -1,19 +1,19 @@
 package com.terms.domen;
 
-import com.fasterxml.jackson.annotation.*;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sun.istack.internal.Nullable;
-import com.sun.org.apache.xalan.internal.lib.ExsltDatetime;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.Email;
 
-
 import javax.persistence.*;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -47,7 +47,6 @@ public class User implements Serializable {
     @Size(max = 256)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String newPassword;
-
 
     @Column(nullable = true, name = "address")
     private String address;
@@ -113,6 +112,14 @@ public class User implements Serializable {
             inverseJoinColumns = {@JoinColumn(name = "region_id", referencedColumnName = "id")})
     private List<Region> regions;
 
+    @ManyToOne(optional = true)
+    @Nullable
+    @JoinColumn(name = "parent_user_id")
+    private User user;
+
+/*    @OneToMany(mappedBy = "user")
+    @Nullable
+    private Set<User> users = new HashSet<>();*/
 
     public Date getLastPasswordResetDate() {
         return lastPasswordResetDate;
@@ -267,6 +274,14 @@ public class User implements Serializable {
         this.tokenExpirationDate = tokenExpirationDate;
     }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -279,7 +294,7 @@ public class User implements Serializable {
                 ", address='" + address + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", createdDate=" + dateCreated +
+                ", dateCreated=" + dateCreated +
                 ", validFrom=" + validFrom +
                 ", validTo=" + validTo +
                 ", confirmPasswordToken='" + confirmPasswordToken + '\'' +
@@ -289,6 +304,7 @@ public class User implements Serializable {
                 ", lastPasswordResetDate=" + lastPasswordResetDate +
                 ", authorities=" + authorities +
                 ", regions=" + regions +
+                ", user=" + user +
                 '}';
     }
 

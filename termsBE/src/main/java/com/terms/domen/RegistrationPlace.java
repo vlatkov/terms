@@ -1,5 +1,7 @@
 package com.terms.domen;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
@@ -25,6 +27,7 @@ public class RegistrationPlace implements Serializable {
     private Boolean active;
 
     @Column(name = "activation_key")
+    @JsonIgnore
     private String activationKey;
 
     @Column(name = "date_created")

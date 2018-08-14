@@ -29,11 +29,11 @@ public class Place implements Serializable {
 
     @Column(name = "location_lat")
     @NotNull
-    private float latitudeLocation;
+    private String latitudeLocation;
 
     @Column(name = "location_lng")
     @NotNull
-    private float longitudeLocation;
+    private String longitudeLocation;
 
     @Column(name = "active")
     private boolean active;
@@ -86,19 +86,19 @@ public class Place implements Serializable {
         this.description = description;
     }
 
-    public float getLatitudeLocation() {
+    public String getLatitudeLocation() {
         return latitudeLocation;
     }
 
-    public void setLatitudeLocation(float latitudeLocation) {
+    public void setLatitudeLocation(String latitudeLocation) {
         this.latitudeLocation = latitudeLocation;
     }
 
-    public float getLongitudeLocation() {
+    public String getLongitudeLocation() {
         return longitudeLocation;
     }
 
-    public void setLongitudeLocation(float longitudeLocation) {
+    public void setLongitudeLocation(String longitudeLocation) {
         this.longitudeLocation = longitudeLocation;
     }
 

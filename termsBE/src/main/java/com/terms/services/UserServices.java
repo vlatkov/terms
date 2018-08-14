@@ -9,24 +9,28 @@ import com.terms.domen.User;
 import com.terms.repository.RoleRepository;
 import com.terms.repository.UserRepository;
 import com.terms.resource.UserRest;
-
 import com.terms.security.login.ResetKey;
-
+import com.terms.services.interfaces.IUserService;
+import com.terms.services.parseService.UpdateWithPatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.UriComponentsBuilder;
-import org.springframework.core.env.Environment;
 
-import java.util.*;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 @Service
 @Transactional
-public class UserServices {
+public class UserServices implements IUserService {
 
     private final Logger log = LoggerFactory.getLogger(UserRest.class);
 
@@ -61,6 +65,7 @@ public class UserServices {
         user.setTokenExpirationDate(FormatDate.calculateExpiryDate(24 * 60));
         return this.userRepository.save(user);
     }
+
 
     /*
     *    @param Object User for check if exist user
@@ -108,12 +113,13 @@ public class UserServices {
         }
     }
 
+    @Override
     @Transactional
     public User confirmUser(Long id, User user, String type) {
 
         Map<String, Object> params = new HashMap<>();
 
-        if (type.equals("u")){
+        if (type.equals("u")) {
             params.put("newPassword", null);
             params.put("password", user.getNewPassword());
         }
@@ -127,6 +133,7 @@ public class UserServices {
         return this.updateUser(user);
     }
 
+    @Override
     @Transactional
     public User updateUserPartial(Long id, Map<String, Object> params) {
 
@@ -149,7 +156,7 @@ public class UserServices {
             outParams.put("tokenExpirationDate", FormatDate.calculateExpiryDate(24 * 60));
             outParams.put("active", false);
             changePass = true;
-        } else if (params.containsKey("newpassword")){
+        } else if (params.containsKey("newpassword")) {
             outParams.put("newPassword", bCryptPasswordEncoder.encode(params.get("newpassword").toString()));
             outParams.put("confirmPasswordToken", TokenCoder.encode(ResetKey.generateRandomHexToken(50)));
             outParams.put("tokenExpirationDate", FormatDate.calculateExpiryDate(24 * 60));
@@ -176,7 +183,7 @@ public class UserServices {
             String imageType = "image/png";
             String image = "logo1.png";
             String template = "mailTemplate";
-            emailService.sendMailHtml(mailInfo, params, template, image, imageType,"update");
+            emailService.sendMailHtml(mailInfo, params, template, image, imageType, "update");
 
 
         }
@@ -184,7 +191,7 @@ public class UserServices {
 
     }
 
-
+    @Override
     public User exists(User user) {
         return userRepository.findByUserName(user.getUserName());
     }
@@ -201,29 +208,58 @@ public class UserServices {
     /*
     *    @param Object User for delete user
     */
+    @Override
     public void deleteUser(Long id) {
         userRepository.deleteAllById(id);
     }
 
+    /*
+   *
+   * @id - find user by id param
+   *
+   */
+    @Override
     public User findOne(Long id) {
         return userRepository.findOne(id);
     }
 
+    /*
+   *
+   * @userName - find user by username param
+   *
+   */
+    @Override
     public User findOneByUserName(String userName) {
         return userRepository.findByUserName(userName);
     }
 
+    @Override
+    public User createUserByAdmin(User user) {
+
+        if (user.getUser() == null) {
+            user.setUser(userRepository.findUserByUserName(SecurityContextHolder.getContext().getAuthentication().getName()));
+        }
+        user.setAuthorities(roleRepository.findByNameRole("ROLE_CUSTOMER"));
+        return this.create(user);
+    }
+
+
     /*
     *   @param Object user for update all visible information
     */
+    @Override
     public User updateUser(User user) {
         return userRepository.save(user);
     }
 
+
+    @Override
     public User findUserByIdAndKey(Long id, String key) {
         return userRepository.findAllByIdAndConfirmPasswordToken(id, key);
     }
 
+
+    @Override
     public User checkExistsUserByParameter(Map<String, Object> param) {
 
         User user = null;

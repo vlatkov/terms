@@ -177,6 +177,7 @@ CREATE TABLE IF NOT EXISTS `region` (
 
 CREATE TABLE IF NOT EXISTS `user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `parent_user_id` int(11) DEFAULT NULL,
   `first_name` varchar(25) NOT NULL,
   `last_name` varchar(25) NOT NULL,
   `user_name` varchar(255) NOT NULL,
@@ -376,13 +377,15 @@ CREATE TABLE IF NOT EXISTS `notification` (
 CREATE TABLE IF NOT EXISTS `reservation` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `place_reservation_id` int(11) NOT NULL,
+  `employee_id` int NOT NULL ,
+  `registration_place_id` int(11) NOT NULL,
   `reservation_state_id` int(11) NOT NULL,
   `activation_key` varchar(255) NOT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
-  KEY `place_reservation_id` (`place_reservation_id`),
+  KEY `registration_place_id` (`registration_place_id`),
+  KEY `employee_id` (`employee_id`),
   KEY `user_id` (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -390,7 +393,7 @@ CREATE TABLE IF NOT EXISTS `reservation` (
 CREATE TABLE IF NOT EXISTS `reservation_audit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `place_reservation_id` int(11) NOT NULL,
+  `registration_place_id` int(11) NOT NULL,
   `reservation_state_id` int(11) NOT NULL,
   `start_time` datetime DEFAULT NULL,
   `end_time` datetime DEFAULT NULL,

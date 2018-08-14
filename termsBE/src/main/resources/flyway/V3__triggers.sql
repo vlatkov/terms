@@ -16,7 +16,7 @@ FOR EACH ROW
       join place p on p.id = pi.place_id
     where pr.id = new.id);
 
-    INSERT INTO resertavion_audit (id, user_id, place_reservation_id, start_time, end_time, price, number_participant)
-    VALUES (NEW.id, NEW.user_id, NEW.place_reservation_id, NEW.start_time, NEW.end_time, @price, @nums);
+    INSERT INTO resertavion_audit (id, user_id, registration_place_id, start_time, end_time, price, number_participant)
+    VALUES (NEW.id, NEW.user_id, NEW.registration_place_id, NEW.start_time, NEW.end_time, @price, @nums);
   END $$
 DELIMITER ;

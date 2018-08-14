@@ -24,11 +24,11 @@ public class PlaceInfo implements Serializable {
     @Column(name = "place_type")
     private String placeType;
 
-    @OneToMany(mappedBy = "placeInfo",
+ /*   @OneToMany(mappedBy = "placeInfo",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
     @JsonIgnore
-    private Set<Place> places = new HashSet<>();
+    private Set<Place> places = new HashSet<>();*/
 
     public Long getId() {
         return id;

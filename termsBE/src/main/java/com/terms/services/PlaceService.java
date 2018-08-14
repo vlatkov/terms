@@ -1,12 +1,14 @@
 package com.terms.services;
 
 import com.terms.DTO.PlaceDTO;
+import com.terms.config.TokenCoder;
 import com.terms.domen.Place;
 import com.terms.domen.Region;
 import com.terms.domen.RegistrationPlace;
 import com.terms.repository.PlaceInfoRepository;
 import com.terms.repository.PlaceRepository;
 import com.terms.repository.RegistrationPlaceRepository;
+import com.terms.services.interfaces.IPlaceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,7 @@ import java.util.List;
 
 @Service
 @Transactional
-public class PlaceService {
-
-    @Autowired
-    private PlaceInfoRepository placeInfoRepository;
+public class PlaceService implements IPlaceService {
 
     @Autowired
     private PlaceRepository placeRepository;
@@ -47,7 +46,7 @@ public class PlaceService {
         registrationPlace.getPlace().setPlaceInfo(placeInfoService.save(registrationPlace.getPlace().getPlaceInfo()));
         registrationPlace.setPlace(this.save(registrationPlace.getPlace()));
         registrationPlace.setUser(userServices.findOneByUserName(SecurityContextHolder.getContext().getAuthentication().getName()));
-        registrationPlace.setActivationKey("dasdasdas");
+        registrationPlace.setActivationKey(TokenCoder.encode(new Date().toString()));
         registrationPlace.setDateCreated(new Date());
         registrationPlace.setValidFrom(new Date());
         registrationPlace.setActive(false);

@@ -39,10 +39,15 @@ ALTER TABLE reservation
   ADD CONSTRAINT FK_ReservationsUser FOREIGN KEY (user_id) REFERENCES user(id);
 
 ALTER TABLE reservation
-  ADD CONSTRAINT FK_ReservationsPlaceRegistrations FOREIGN KEY (place_reservation_id) REFERENCES registration_place(id);
+  ADD CONSTRAINT FK_ReservationsUserEmployee FOREIGN KEY (employee_id) REFERENCES user(id);
+
+ALTER TABLE reservation
+  ADD CONSTRAINT FK_ReservationsPlaceRegistrations FOREIGN KEY (registration_place_id) REFERENCES registration_place(id);
 
 ALTER TABLE reservation
   ADD CONSTRAINT FK_ReservationsReservationsState FOREIGN KEY (reservation_state_id) REFERENCES reservation_state(id);
+
+
 
 
 
@@ -80,3 +85,6 @@ ALTER TABLE place_comment
 
 ALTER TABLE place_comment
   ADD CONSTRAINT FK_CommentPlaceManyToMany FOREIGN KEY (comment_id) REFERENCES comment(id);
+
+ALTER TABLE user
+  ADD CONSTRAINT FK_UserUser FOREIGN KEY (parent_user_id) REFERENCES user(id);
